@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_journal/pages/home_page.dart';
+import 'package:my_journal/pages/login_page.dart';
+import 'package:my_journal/pages/register_page.dart';
 import 'package:my_journal/utils/themes.dart';
 
 void main() {
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: myLightTheme,
       darkTheme: myLightTheme,
-      home: const HomePage(),
+      home: const RegisterPage(),
     );
   }
 }

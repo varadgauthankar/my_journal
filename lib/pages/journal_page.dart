@@ -11,7 +11,7 @@ class JournalPage extends StatefulWidget {
 }
 
 class _JournalPageState extends State<JournalPage> {
-  String _getDefaultTitle() {
+  String _getDefaultJournalTitle() {
     final String _todaysDate = DateTime.now().toString();
     return DateFormatter.formatToAppStandard(_todaysDate);
   }
@@ -22,7 +22,7 @@ class _JournalPageState extends State<JournalPage> {
       appBar: AppBar(),
       body: ListView(
         physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
         children: [
           TextFormField(
             style: const TextStyle(
@@ -30,7 +30,7 @@ class _JournalPageState extends State<JournalPage> {
               fontWeight: FontWeight.w600,
             ),
             decoration: InputDecoration(
-              hintText: _getDefaultTitle(),
+              hintText: _getDefaultJournalTitle(),
               border: InputBorder.none,
             ),
           ),
