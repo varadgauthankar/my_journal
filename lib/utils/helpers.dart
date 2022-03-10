@@ -13,3 +13,10 @@ void goToPage(BuildContext context, {required Widget page}) {
     MaterialPageRoute(builder: ((context) => page)),
   );
 }
+
+void replacePage(BuildContext context, {required Widget page}) {
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: ((context) => page)),
+  );
+}
