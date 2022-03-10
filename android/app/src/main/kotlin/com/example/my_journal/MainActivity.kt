@@ -1,4 +1,4 @@
-package com.example.my_journal
+package me.varad.my_journal
 
 import io.flutter.embedding.android.FlutterActivity
 
