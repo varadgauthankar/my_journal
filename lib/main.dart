@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_journal/pages/home_page.dart';
-import 'package:my_journal/utils/color_schemes.dart';
 import 'package:my_journal/utils/themes.dart';
 
 void main() {

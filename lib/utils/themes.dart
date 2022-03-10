@@ -27,12 +27,16 @@ ThemeData myLightTheme = ThemeData(
 
   // app bar theme
   appBarTheme: AppBarTheme(
-    backgroundColor: lightColorScheme.secondaryContainer,
+    backgroundColor: lightColorScheme.surface,
     elevation: 0,
-    // titleTextStyle: MyTextStyles.heading.copyWith(color: kBlackColor),
-    // iconTheme: const IconThemeData(
-    //   color: kBlackColor,
-    // ),
+    titleTextStyle: TextStyle(
+      fontSize: 22,
+      color: lightColorScheme.onSurface,
+      fontWeight: FontWeight.bold,
+    ),
+    iconTheme: IconThemeData(
+      color: lightColorScheme.onPrimaryContainer,
+    ),
   ),
 );
 
@@ -61,11 +65,15 @@ ThemeData myDarkTheme = ThemeData(
 
   // app bar theme
   appBarTheme: AppBarTheme(
-    backgroundColor: darkColorScheme.secondaryContainer,
+    backgroundColor: darkColorScheme.surface,
     elevation: 0,
-    // titleTextStyle: MyTextStyles.heading.copyWith(color: kBlackColor),
-    // iconTheme: const IconThemeData(
-    //   color: kBlackColor,
-    // ),
+    titleTextStyle: TextStyle(
+      fontSize: 22,
+      color: darkColorScheme.onSurface,
+      fontWeight: FontWeight.bold,
+    ),
+    iconTheme: IconThemeData(
+      color: darkColorScheme.onPrimaryContainer,
+    ),
   ),
 );
