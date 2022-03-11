@@ -1,12 +1,12 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/utils/color_schemes.dart';
+import 'package:my_journal/utils/helpers.dart';
 
-class PrimaryButton extends StatelessWidget {
-  final String text;
+class GoogleSignInButton extends StatelessWidget {
   final VoidCallback onPressed;
-  const PrimaryButton({
+  const GoogleSignInButton({
     Key? key,
-    required this.text,
     required this.onPressed,
   }) : super(key: key);
 
@@ -17,13 +17,22 @@ class PrimaryButton extends StatelessWidget {
       width: double.maxFinite,
       child: OutlinedButton(
         onPressed: onPressed,
-        child: Text(text.toUpperCase()),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(EvaIcons.google),
+            spacer(width: 12.0),
+            const Text('Sign in with Google'),
+          ],
+        ),
         style: TextButton.styleFrom(
-          backgroundColor:
-              false ? darkColorScheme.primary : lightColorScheme.primary,
-          primary: false ? Colors.black : Colors.white,
+          // TODO: replace with theme checker
+          backgroundColor: false
+              ? darkColorScheme.primaryContainer
+              : lightColorScheme.primaryContainer,
+          primary: false ? Colors.white : Colors.black,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(50.0),
           ),
         ),
       ),
