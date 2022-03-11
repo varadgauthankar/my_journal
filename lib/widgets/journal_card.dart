@@ -14,7 +14,11 @@ class JournalCard extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
     return MyCard(
       height: screenSize.height * .12,
-      onTap: () => goToPage(context, page: JournalPage(journal: journal)),
+      onTap: () => goToPage(context,
+          page: JournalPage(
+            journal: journal,
+            isEdit: true,
+          )),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

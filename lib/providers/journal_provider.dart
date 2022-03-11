@@ -16,14 +16,23 @@ class JournalProvider extends ChangeNotifier {
   TextEditingController get titleController => _titleController;
   TextEditingController get descriptionController => _descriptionController;
 
-  void disposeControllers() {
-    _titleController.clear();
-    _descriptionController.clear();
+  Journal? _existingJournal;
+  bool _isEdit = false;
+
+  void setInitialJournalData(Journal? journal) {
+    if (journal != null) {
+      _titleController.text = journal.title ?? '';
+      _descriptionController.text = journal.description ?? '';
+
+      _isEdit = true;
+
+      notifyListeners();
+    }
   }
 
-  Future<void> createJournal() async {
+  Future<void> _createJournal() async {
     if (_descriptionController.text.isNotEmpty) {
-      setState(JournalProviderState.loading);
+      _setState(JournalProviderState.loading);
       try {
         await _firestoreService.create(
           Journal(
@@ -35,15 +44,40 @@ class JournalProvider extends ChangeNotifier {
             updatedAt: DateTime.now().toString(),
           ),
         );
-
-        setState(JournalProviderState.complete);
+        _setState(JournalProviderState.complete);
       } catch (e) {
-        setState(JournalProviderState.error);
+        _setState(JournalProviderState.error);
       }
     }
   }
 
-  void setState(JournalProviderState state) {
+  Future<void> _updateJournal() async {
+    try {
+      final updatedJournal = _existingJournal!
+        ..title = _titleController.text
+        ..description = _descriptionController.text
+        ..updatedAt = DateTime.now().toString();
+
+      _firestoreService.update(updatedJournal);
+    } catch (e) {}
+  }
+
+  void _disposeControllers() {
+    _titleController.clear();
+    _descriptionController.clear();
+  }
+
+  void handleSavingJournal(BuildContext context) async {
+    if (_isEdit) {
+      await _updateJournal();
+    } else {
+      await _createJournal();
+    }
+    _disposeControllers();
+    Navigator.pop(context);
+  }
+
+  void _setState(JournalProviderState state) {
     _state = state;
     notifyListeners();
   }

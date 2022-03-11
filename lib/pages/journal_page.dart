@@ -7,7 +7,12 @@ import 'package:provider/provider.dart';
 
 class JournalPage extends StatefulWidget {
   final Journal? journal;
-  const JournalPage({Key? key, this.journal}) : super(key: key);
+  final bool isEdit;
+  const JournalPage({
+    Key? key,
+    this.journal,
+    this.isEdit = false,
+  }) : super(key: key);
 
   @override
   _JournalPageState createState() => _JournalPageState();
@@ -21,6 +26,12 @@ class _JournalPageState extends State<JournalPage> {
 
   @override
   void initState() {
+    if (widget.isEdit) {
+      WidgetsBinding.instance!.addPostFrameCallback(((timeStamp) {
+        Provider.of<JournalProvider>(context, listen: false)
+            .setInitialJournalData(widget.journal);
+      }));
+    }
     super.initState();
   }
 
@@ -30,11 +41,7 @@ class _JournalPageState extends State<JournalPage> {
       return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () {
-              value.createJournal();
-              value.disposeControllers();
-              Navigator.pop(context);
-            },
+            onPressed: () => value.handleSavingJournal(context),
             icon: const Icon(EvaIcons.chevronLeft),
           ),
         ),
@@ -68,13 +75,7 @@ class _JournalPageState extends State<JournalPage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await value.createJournal();
-            value.disposeControllers();
-            if (value.state == JournalProviderState.complete) {
-              Navigator.pop(context);
-            }
-          },
+          onPressed: () => value.handleSavingJournal(context),
           child: const Icon(EvaIcons.checkmark),
         ),
       );
