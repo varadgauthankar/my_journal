@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/models/journal.dart';
+import 'package:my_journal/pages/journal_page.dart';
+import 'package:my_journal/services/firestore_service.dart';
+import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/journal_card.dart';
-import 'package:my_journal/widgets/my_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,6 +14,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  FirestoreService? _firestoreService;
+  @override
+  void initState() {
+    _firestoreService = FirestoreService();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,22 +34,41 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       //
-      body: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 6.0),
-        physics: const BouncingScrollPhysics(),
-        itemCount: 12,
-        itemBuilder: ((context, index) {
-          var journal = Journal(
-            title: 'Tue, 25 Aug',
-            description:
-                'Lorem ipsum dolor Enim dolor est laborum aliqua. Velit consequat occaecat aliqua anim consequat ea esse. Proident enim eiusmod fugiat sint magna labore fugiat voluptate deserunt ad quis eiusmod commodo occaecat. Ad voluptate ex excepteur dolor aliquip esse ea sunt.',
-          );
-          return JournalCard(journal);
-        }),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _firestoreService!.journals!.snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          if (snapshot.hasError) {
+            return Text('Something went wrong!');
+          }
+          if (snapshot.data?.size == 0) {
+            return Text('No Journals');
+          }
+          if (snapshot.hasData) {
+            final journals =
+                snapshot.data?.docs.map((e) => Journal.fromSnapshot(e));
+
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+              physics: const BouncingScrollPhysics(),
+              itemCount: journals?.length,
+              itemBuilder: ((context, index) {
+                final journal = journals?.elementAt(index);
+                return JournalCard(journal!);
+              }),
+            );
+          }
+          //
+          else {
+            return const SizedBox.shrink();
+          }
+        },
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => goToPage(context, page: const JournalPage()),
         child: const Icon(Icons.add),
       ),
     );

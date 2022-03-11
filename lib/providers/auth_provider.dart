@@ -19,7 +19,7 @@ class AuthProvider extends ChangeNotifier {
 
   void signInWithGoogle() async {
     try {
-      final user = await _googleSignInService.signInWithGoogle();
+      await _googleSignInService.signInWithGoogle();
     } catch (e) {
       print(e);
     }

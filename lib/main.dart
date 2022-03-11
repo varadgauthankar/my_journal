@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/pages/home_page.dart';
 import 'package:my_journal/pages/sign_in_page.dart';
-import 'package:my_journal/providers/auth/auth_provider.dart';
+import 'package:my_journal/providers/auth_provider.dart';
+import 'package:my_journal/providers/journal_provider.dart';
 import 'package:my_journal/services/signin_with_google_service.dart';
 import 'package:my_journal/utils/themes.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => JournalProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

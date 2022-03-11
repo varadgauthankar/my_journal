@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_journal/providers/auth/auth_provider.dart';
+import 'package:my_journal/providers/auth_provider.dart';
 import 'package:my_journal/utils/color_schemes.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/primary_button.dart';
