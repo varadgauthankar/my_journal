@@ -86,7 +86,9 @@ class _JournalPageState extends State<JournalPage> {
             context,
             isEdit: widget.isEdit,
           ),
-          child: const Icon(EvaIcons.checkmark),
+          child: value.state == JournalProviderState.loading
+              ? myCircularProgressIndicator(size: 18)
+              : const Icon(EvaIcons.checkmark),
         ),
       );
     });

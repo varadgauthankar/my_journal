@@ -28,3 +28,11 @@ void showSnackbar(BuildContext context, String text) {
     }),
   );
 }
+
+Widget myCircularProgressIndicator({double? size}) {
+  return SizedBox(
+    height: size,
+    width: size,
+    child: const CircularProgressIndicator(),
+  );
+}
