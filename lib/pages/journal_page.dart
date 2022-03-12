@@ -41,7 +41,10 @@ class _JournalPageState extends State<JournalPage> {
       return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () => value.handleSavingJournal(context),
+            onPressed: () => value.handleSavingJournal(
+              context,
+              isEdit: widget.isEdit,
+            ),
             icon: const Icon(EvaIcons.chevronLeft),
           ),
         ),
@@ -75,7 +78,10 @@ class _JournalPageState extends State<JournalPage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => value.handleSavingJournal(context),
+          onPressed: () => value.handleSavingJournal(
+            context,
+            isEdit: widget.isEdit,
+          ),
           child: const Icon(EvaIcons.checkmark),
         ),
       );

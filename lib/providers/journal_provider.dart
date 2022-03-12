@@ -17,15 +17,21 @@ class JournalProvider extends ChangeNotifier {
   TextEditingController get descriptionController => _descriptionController;
 
   Journal? _existingJournal;
-  bool _isEdit = false;
+
+  bool _isChangesMade() {
+    if (_existingJournal?.title != _titleController.text ||
+        _existingJournal?.description != _descriptionController.text) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   void setInitialJournalData(Journal? journal) {
     if (journal != null) {
       _titleController.text = journal.title ?? '';
       _descriptionController.text = journal.description ?? '';
-
-      _isEdit = true;
-
+      _existingJournal = journal;
       notifyListeners();
     }
   }
@@ -34,46 +40,57 @@ class JournalProvider extends ChangeNotifier {
     if (_descriptionController.text.isNotEmpty) {
       _setState(JournalProviderState.loading);
       try {
-        await _firestoreService.create(
-          Journal(
-            title: _titleController.text.isEmpty
-                ? DateFormatter.formatToAppStandard(DateTime.now().toString())
-                : _titleController.text,
-            description: _descriptionController.text,
-            createdAt: DateTime.now().toString(),
-            updatedAt: DateTime.now().toString(),
-          ),
+        final journalToCreate = Journal(
+          title: _titleController.text.isEmpty
+              ? DateFormatter.formatToAppStandard(DateTime.now().toString())
+              : _titleController.text,
+          description: _descriptionController.text,
+          createdAt: DateTime.now().toString(),
+          updatedAt: DateTime.now().toString(),
         );
+        await _firestoreService.create(journalToCreate);
         _setState(JournalProviderState.complete);
       } catch (e) {
         _setState(JournalProviderState.error);
+        // ignore: avoid_print
+        print('CREATE EXCEPTION : $e');
       }
     }
   }
 
   Future<void> _updateJournal() async {
-    try {
-      final updatedJournal = _existingJournal!
-        ..title = _titleController.text
-        ..description = _descriptionController.text
-        ..updatedAt = DateTime.now().toString();
+    if (_descriptionController.text.isNotEmpty) {
+      _setState(JournalProviderState.loading);
+      try {
+        final updatedJournal = _existingJournal!
+          ..title = _titleController.text
+          ..description = _descriptionController.text
+          ..updatedAt = DateTime.now().toString();
 
-      _firestoreService.update(updatedJournal);
-    } catch (e) {}
+        await _firestoreService.update(updatedJournal);
+        _setState(JournalProviderState.complete);
+      } catch (e) {
+        _setState(JournalProviderState.error);
+        // ignore: avoid_print
+        print('UPDATE EXCEPTION : $e');
+      }
+    }
   }
 
-  void _disposeControllers() {
+  void _clearControllers() {
     _titleController.clear();
     _descriptionController.clear();
   }
 
-  void handleSavingJournal(BuildContext context) async {
-    if (_isEdit) {
-      await _updateJournal();
+  void handleSavingJournal(BuildContext context, {required bool isEdit}) async {
+    if (isEdit) {
+      if (_isChangesMade()) {
+        await _updateJournal();
+      }
     } else {
       await _createJournal();
     }
-    _disposeControllers();
+    _clearControllers();
     Navigator.pop(context);
   }
 
