@@ -29,12 +29,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MyJournal'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.settings_outlined),
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {},
+        //     icon: const Icon(Icons.settings_outlined),
+        //   )
+        // ],
       ),
       //
       body: StreamBuilder<QuerySnapshot>(
