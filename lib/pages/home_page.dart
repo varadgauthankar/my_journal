@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                 ),
           spacer(height: 12),
           Text(
-            isError ? 'Something went wrong!' : 'No Journals!',
+            isError ? 'Something went wrong!' : 'No Journals yet!',
             style: TextStyle(
               fontSize: 24,
               fontWeight: isError ? FontWeight.w500 : FontWeight.bold,
