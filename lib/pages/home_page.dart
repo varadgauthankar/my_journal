@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/pages/journal_page.dart';
 import 'package:my_journal/services/firestore_service.dart';
+import 'package:my_journal/utils/color_schemes.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/journal_card.dart';
 
@@ -38,13 +41,13 @@ class _HomePageState extends State<HomePage> {
         stream: _firestoreService!.journals!.snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Text('Something went wrong!');
+            return _exceptionWidget(isError: true);
           }
           if (snapshot.data?.size == 0) {
-            return Text('No Journals');
+            return _exceptionWidget();
           }
           if (snapshot.hasData) {
             final journals =
@@ -70,6 +73,35 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => goToPage(context, page: const JournalPage()),
         child: const Icon(Icons.add),
+      ),
+    );
+  }
+
+  Widget _exceptionWidget({bool isError = false}) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          isError
+              ? const Icon(
+                  EvaIcons.alertTriangleOutline,
+                  size: 80,
+                  color: Colors.amberAccent,
+                )
+              : SvgPicture.asset(
+                  'assets/empty.svg',
+                  height: 120,
+                ),
+          spacer(height: 12),
+          Text(
+            isError ? 'Something went wrong!' : 'No Journals!',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: isError ? FontWeight.w500 : FontWeight.bold,
+              color: false ? darkColorScheme.primary : lightColorScheme.primary,
+            ),
+          )
+        ],
       ),
     );
   }

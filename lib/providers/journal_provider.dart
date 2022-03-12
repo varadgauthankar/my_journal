@@ -90,6 +90,7 @@ class JournalProvider extends ChangeNotifier {
     try {
       _setState(JournalProviderState.loading);
       _firestoreService.delete(_existingJournal!); // cant be null on edit state
+      _clearControllers();
       _setState(JournalProviderState.complete);
     } catch (e) {
       _errorMessage = e.toString();
