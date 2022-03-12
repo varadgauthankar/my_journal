@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/providers/journal_provider.dart';
+import 'package:my_journal/utils/color_schemes.dart';
 import 'package:my_journal/utils/date_formatter.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +52,14 @@ class _JournalPageState extends State<JournalPage> {
             ),
             icon: const Icon(EvaIcons.chevronLeft),
           ),
+          actions: [
+            widget.isEdit
+                ? IconButton(
+                    onPressed: () => _showDeleteDialog(context, value),
+                    icon: const Icon(EvaIcons.trashOutline),
+                  )
+                : const SizedBox.shrink(),
+          ],
         ),
         body: ListView(
           physics: const BouncingScrollPhysics(),
@@ -92,5 +101,35 @@ class _JournalPageState extends State<JournalPage> {
         ),
       );
     });
+  }
+
+  void _showDeleteDialog(BuildContext context, JournalProvider value) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Delete Journal?'),
+            content: const Text('This cannot be undone'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('CANCEL'),
+              ),
+              TextButton(
+                onPressed: () {
+                  value.deleteJournal();
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: const Text('DELETE'),
+              ),
+            ],
+            backgroundColor: lightColorScheme.primaryContainer,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          );
+        });
+    // value.deleteJournal();
   }
 }

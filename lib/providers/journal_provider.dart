@@ -86,6 +86,19 @@ class JournalProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> deleteJournal() async {
+    try {
+      _setState(JournalProviderState.loading);
+      _firestoreService.delete(_existingJournal!); // cant be null on edit state
+      _setState(JournalProviderState.complete);
+    } catch (e) {
+      _errorMessage = e.toString();
+      _setState(JournalProviderState.error);
+      // ignore: avoid_print
+      print('DELETE EXCEPTION : $e');
+    }
+  }
+
   void _clearControllers() {
     _titleController.clear();
     _descriptionController.clear();
