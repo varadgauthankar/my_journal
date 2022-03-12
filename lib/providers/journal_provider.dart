@@ -6,6 +6,10 @@ import 'package:my_journal/utils/date_formatter.dart';
 enum JournalProviderState { initial, loading, complete, error }
 
 class JournalProvider extends ChangeNotifier {
+  JournalProvider() {
+    print('IN CONSTRUCTOR');
+  }
+
   final FirestoreService _firestoreService = FirestoreService();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -17,6 +21,9 @@ class JournalProvider extends ChangeNotifier {
   TextEditingController get descriptionController => _descriptionController;
 
   Journal? _existingJournal;
+
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
 
   bool _isChangesMade() {
     if (_existingJournal?.title != _titleController.text ||
@@ -51,6 +58,7 @@ class JournalProvider extends ChangeNotifier {
         await _firestoreService.create(journalToCreate);
         _setState(JournalProviderState.complete);
       } catch (e) {
+        _errorMessage = e.toString();
         _setState(JournalProviderState.error);
         // ignore: avoid_print
         print('CREATE EXCEPTION : $e');
@@ -70,6 +78,7 @@ class JournalProvider extends ChangeNotifier {
         await _firestoreService.update(updatedJournal);
         _setState(JournalProviderState.complete);
       } catch (e) {
+        _errorMessage = e.toString();
         _setState(JournalProviderState.error);
         // ignore: avoid_print
         print('UPDATE EXCEPTION : $e');
@@ -90,12 +99,20 @@ class JournalProvider extends ChangeNotifier {
     } else {
       await _createJournal();
     }
-    _clearControllers();
-    Navigator.pop(context);
+
+    if (_state != JournalProviderState.error) {
+      _clearControllers();
+      _disposeState();
+      Navigator.pop(context);
+    }
   }
 
   void _setState(JournalProviderState state) {
     _state = state;
     notifyListeners();
+  }
+
+  void _disposeState() {
+    _state = JournalProviderState.initial;
   }
 }

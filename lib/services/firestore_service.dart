@@ -28,7 +28,8 @@ class FirestoreService {
     await journalDoc.update(journal.toJson());
   }
 
-  // Stream<List<Journal>> journalsStream() {
-  //   return _journals!.snapshots().transform(streamTransformer);
-  // }
+  Future<void> delete(Journal journal) async {
+    final journalDoc = _journals!.doc(journal.id);
+    await journalDoc.delete();
+  }
 }

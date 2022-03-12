@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/providers/journal_provider.dart';
 import 'package:my_journal/utils/date_formatter.dart';
+import 'package:my_journal/utils/helpers.dart';
 import 'package:provider/provider.dart';
 
 class JournalPage extends StatefulWidget {
@@ -38,6 +39,9 @@ class _JournalPageState extends State<JournalPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<JournalProvider>(builder: (context, value, child) {
+      if (value.state == JournalProviderState.error) {
+        showSnackbar(context, value.errorMessage ?? 'Something went wrong');
+      }
       return Scaffold(
         appBar: AppBar(
           leading: IconButton(

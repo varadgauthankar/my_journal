@@ -20,3 +20,11 @@ void replacePage(BuildContext context, {required Widget page}) {
     MaterialPageRoute(builder: ((context) => page)),
   );
 }
+
+void showSnackbar(BuildContext context, String text) {
+  WidgetsBinding.instance!.addPostFrameCallback(
+    ((timeStamp) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+    }),
+  );
+}
