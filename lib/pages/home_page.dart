@@ -38,7 +38,9 @@ class _HomePageState extends State<HomePage> {
       ),
       //
       body: StreamBuilder<QuerySnapshot>(
-        stream: _firestoreService!.journals!.snapshots(),
+        stream: _firestoreService!.journals!
+            .orderBy('updatedAt', descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
