@@ -9,10 +9,12 @@ class EncryptionService {
   }
 
   String encrypt(String plainText) {
+    // TODO: try catch
     return _encrypter!.encrypt(plainText, iv: _iv).base64;
   }
 
   String decrypt(String encryptedText) {
+    // TODO: try catch
     final encrypted = Encrypted.fromBase64(encryptedText);
     return _encrypter!.decrypt(encrypted, iv: _iv);
   }
