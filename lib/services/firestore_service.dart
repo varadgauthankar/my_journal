@@ -20,12 +20,13 @@ class FirestoreService {
   Future<void> create(Journal journal) async {
     final journalDoc = _journals!.doc();
     final journalWithId = journal..id = journalDoc.id;
-    await journalDoc.set(journalWithId.toJson());
+
+    await journalDoc.set(Journal.encrypt(journalWithId).toJson());
   }
 
   Future<void> update(Journal journal) async {
     final journalDoc = _journals!.doc(journal.id);
-    await journalDoc.update(journal.toJson());
+    await journalDoc.update(Journal.decrypt(journal).toJson());
   }
 
   Future<void> delete(Journal journal) async {

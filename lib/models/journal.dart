@@ -1,3 +1,5 @@
+import 'package:my_journal/services/encryption_service.dart';
+
 class Journal {
   String? id;
   String? title;
@@ -35,6 +37,20 @@ class Journal {
         description = snapshot.data()['description'],
         createdAt = snapshot.data()['createdAt'],
         updatedAt = snapshot.data()['updatedAt'];
+
+  static Journal encrypt(Journal journal) {
+    EncryptionService _encryptionService = EncryptionService();
+    return journal
+      ..title = _encryptionService.encrypt(journal.title!)
+      ..description = _encryptionService.encrypt(journal.description!);
+  }
+
+  static Journal decrypt(Journal journal) {
+    EncryptionService _encryptionService = EncryptionService();
+    return journal
+      ..title = _encryptionService.decrypt(journal.title!)
+      ..description = _encryptionService.decrypt(journal.description!);
+  }
 
   @override
   String toString() {

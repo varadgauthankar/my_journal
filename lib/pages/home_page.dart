@@ -59,7 +59,8 @@ class _HomePageState extends State<HomePage> {
               itemCount: journals?.length,
               itemBuilder: ((context, index) {
                 final journal = journals?.elementAt(index);
-                return JournalCard(journal!);
+                final decryptedJournal = Journal.decrypt(journal!);
+                return JournalCard(decryptedJournal);
               }),
             );
           }
