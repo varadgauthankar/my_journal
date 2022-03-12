@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.varad.my_journal">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="my_journal"
         android:name="${applicationName}"
