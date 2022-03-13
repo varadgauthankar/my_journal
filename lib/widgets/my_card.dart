@@ -18,6 +18,7 @@ class MyCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: Material(
+        elevation: 2.2,
         borderRadius: BorderRadius.circular(12.0),
         color: true
             ? lightColorScheme.primaryContainer
@@ -29,7 +30,7 @@ class MyCard extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(12.0),
             width: double.maxFinite,
-            height: height ?? 100,
+            // height: height ?? 100,
             child: child,
           ),
         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/pages/journal_page.dart';
 import 'package:my_journal/utils/color_schemes.dart';
+import 'package:my_journal/utils/date_formatter.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/my_card.dart';
 
@@ -13,7 +14,7 @@ class JournalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return MyCard(
-      height: screenSize.height * .12,
+      height: screenSize.height * .11,
       onTap: () => goToPage(context,
           page: JournalPage(
             journal: journal,
@@ -36,7 +37,7 @@ class JournalCard extends StatelessWidget {
           Text(
             journal.description ?? '',
             maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+            overflow: TextOverflow.fade,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.normal,
