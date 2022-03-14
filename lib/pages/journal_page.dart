@@ -42,66 +42,72 @@ class _JournalPageState extends State<JournalPage> {
       if (value.state == JournalProviderState.error) {
         showSnackbar(context, value.errorMessage ?? 'Something went wrong');
       }
-      return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
+      return WillPopScope(
+        onWillPop: () async {
+          value.handleSavingJournal(context, isEdit: widget.isEdit);
+          return true;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () => value.handleSavingJournal(
+                context,
+                isEdit: widget.isEdit,
+              ),
+              icon: const Icon(EvaIcons.chevronLeft),
+            ),
+            actions: [
+              widget.isEdit
+                  ? IconButton(
+                      onPressed: () => _showDeleteDialog(context, value),
+                      icon: const Icon(EvaIcons.trashOutline),
+                    )
+                  : const SizedBox.shrink(),
+            ],
+          ),
+          body: ListView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            children: [
+              if (widget.isEdit)
+                Text(
+                  DateFormatter.getJournalCreatedDateWithTime(
+                      widget.journal!.createdAt!),
+                ),
+              TextFormField(
+                controller: value.titleController,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                ),
+                decoration: InputDecoration(
+                  hintText: _getDefaultJournalTitle(),
+                  border: InputBorder.none,
+                ),
+              ),
+              TextFormField(
+                controller: value.descriptionController,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.normal,
+                ),
+                decoration: const InputDecoration(
+                  hintText: 'How was your day?',
+                  border: InputBorder.none,
+                ),
+                maxLines: null,
+              ),
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
             onPressed: () => value.handleSavingJournal(
               context,
               isEdit: widget.isEdit,
             ),
-            icon: const Icon(EvaIcons.chevronLeft),
+            child: value.state == JournalProviderState.loading
+                ? myCircularProgressIndicator(size: 18)
+                : const Icon(EvaIcons.checkmark),
           ),
-          actions: [
-            widget.isEdit
-                ? IconButton(
-                    onPressed: () => _showDeleteDialog(context, value),
-                    icon: const Icon(EvaIcons.trashOutline),
-                  )
-                : const SizedBox.shrink(),
-          ],
-        ),
-        body: ListView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          children: [
-            if (widget.isEdit)
-              Text(
-                DateFormatter.getJournalCreatedDateWithTime(
-                    widget.journal!.createdAt!),
-              ),
-            TextFormField(
-              controller: value.titleController,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-              ),
-              decoration: InputDecoration(
-                hintText: _getDefaultJournalTitle(),
-                border: InputBorder.none,
-              ),
-            ),
-            TextFormField(
-              controller: value.descriptionController,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.normal,
-              ),
-              decoration: const InputDecoration(
-                hintText: 'How was your day?',
-                border: InputBorder.none,
-              ),
-              maxLines: null,
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => value.handleSavingJournal(
-            context,
-            isEdit: widget.isEdit,
-          ),
-          child: value.state == JournalProviderState.loading
-              ? myCircularProgressIndicator(size: 18)
-              : const Icon(EvaIcons.checkmark),
         ),
       );
     });
