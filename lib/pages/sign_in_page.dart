@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_journal/providers/auth_provider.dart';
 import 'package:my_journal/utils/helpers.dart';
-import 'package:my_journal/widgets/primary_button.dart';
+import 'package:my_journal/widgets/sign_in_with_google_button.dart';
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
