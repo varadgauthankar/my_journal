@@ -2,7 +2,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/providers/journal_provider.dart';
-import 'package:my_journal/utils/color_schemes.dart';
 import 'package:my_journal/utils/date_formatter.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:provider/provider.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_journal/models/journal.dart';
-import 'package:my_journal/services/encryption_service.dart';
 import 'package:my_journal/services/firestore_service.dart';
 import 'package:my_journal/utils/date_formatter.dart';
 

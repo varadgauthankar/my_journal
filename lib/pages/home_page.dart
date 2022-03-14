@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(
               fontSize: 24,
               fontWeight: isError ? FontWeight.w500 : FontWeight.bold,
-              color: false ? darkColorScheme.primary : lightColorScheme.primary,
+              color: Theme.of(context).colorScheme.primary,
             ),
           )
         ],

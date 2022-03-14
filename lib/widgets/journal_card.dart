@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/pages/journal_page.dart';
-import 'package:my_journal/utils/color_schemes.dart';
-import 'package:my_journal/utils/date_formatter.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/my_card.dart';
 
