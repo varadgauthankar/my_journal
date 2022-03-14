@@ -1,7 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:my_journal/providers/auth_provider.dart';
 import 'package:my_journal/providers/theme_provider.dart';
-import 'package:my_journal/utils/color_schemes.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/my_card.dart';
 import 'package:provider/provider.dart';
@@ -47,32 +47,84 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 6.0),
         children: [
-          Consumer<ThemeProvider>(
-            builder: (context, value, child) {
-              return MyCard(
-                onTap: () {},
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'App Theme',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      ),
-                    ),
-                    spacer(height: 4),
-                    Wrap(
-                      children: buildDarkModeChips(value),
-                    )
-                  ],
-                ),
-              );
-            },
-          )
+          _profileCard(),
+          _appThemeCard(),
         ],
       ),
     );
+  }
+
+  Consumer<ThemeProvider> _appThemeCard() {
+    return Consumer<ThemeProvider>(
+      builder: (context, value, child) {
+        return MyCard(
+          onTap: () {},
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'App Theme',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+              ),
+              spacer(height: 4),
+              Wrap(
+                children: buildDarkModeChips(value),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Consumer<AuthProvider> _profileCard() {
+    return Consumer<AuthProvider>(builder: (context, value, child) {
+      final user = value.getCurrentUser();
+      return MyCard(
+        onTap: () {},
+        child: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage(user!.photoURL!),
+            ),
+            spacer(width: 8),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.displayName!,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  user.email!,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            const Spacer(),
+            TextButton(
+              onPressed: () =>
+                  value.signOut().then((value) => Navigator.pop(context)),
+              child: const Text('LOG OUT'),
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).colorScheme.error,
+              ),
+            )
+          ],
+        ),
+      );
+    });
   }
 }

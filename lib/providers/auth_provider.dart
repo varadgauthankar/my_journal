@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/services/signin_with_google_service.dart';
 
@@ -23,6 +24,14 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+  }
+
+  User? getCurrentUser() {
+    return _googleSignInService.getCurrentUser();
+  }
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 
   void setState(AuthState state) {
