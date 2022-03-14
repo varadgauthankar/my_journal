@@ -4,7 +4,7 @@ import 'package:my_journal/pages/home_page.dart';
 import 'package:my_journal/pages/sign_in_page.dart';
 import 'package:my_journal/providers/auth_provider.dart';
 import 'package:my_journal/providers/journal_provider.dart';
-import 'package:my_journal/services/signin_with_google_service.dart';
+import 'package:my_journal/providers/theme_provider.dart';
 import 'package:my_journal/utils/themes.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -29,13 +29,17 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => JournalProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: myLightTheme,
-        darkTheme: myLightTheme,
-        home: const AuthenticationWrapper(),
-      ),
+      child: Consumer<ThemeProvider>(builder: (context, value, child) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: myLightTheme,
+          darkTheme: myDarkTheme,
+          themeMode: value.themeMode,
+          home: const AuthenticationWrapper(),
+        );
+      }),
     );
   }
 }

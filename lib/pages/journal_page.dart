@@ -108,7 +108,12 @@ class _JournalPageState extends State<JournalPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text('Delete Journal?'),
+            title: Text(
+              'Delete Journal?',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
             content: const Text('This cannot be undone'),
             actions: [
               TextButton(
@@ -124,7 +129,7 @@ class _JournalPageState extends State<JournalPage> {
                 child: const Text('DELETE'),
               ),
             ],
-            backgroundColor: lightColorScheme.primaryContainer,
+            // backgroundColor: lightColorScheme.primaryContainer,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_journal/utils/color_schemes.dart';
 
 ThemeData myLightTheme = ThemeData(
-  colorSchemeSeed: seed,
-
+  // colorSchemeSeed: seed,
+  colorScheme: lightColorScheme,
   // floating action theme
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: lightColorScheme.tertiaryContainer,
@@ -31,17 +31,20 @@ ThemeData myLightTheme = ThemeData(
     elevation: 0,
     titleTextStyle: TextStyle(
       fontSize: 22,
-      color: lightColorScheme.onSurface,
+      color: lightColorScheme.onPrimaryContainer,
       fontWeight: FontWeight.bold,
     ),
     iconTheme: IconThemeData(
       color: lightColorScheme.onPrimaryContainer,
     ),
   ),
+
+  scaffoldBackgroundColor: lightColorScheme.background,
 );
 
 ThemeData myDarkTheme = ThemeData(
-  colorSchemeSeed: seed,
+  // colorSchemeSeed: seed,
+  colorScheme: darkColorScheme,
   // floating action theme
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: darkColorScheme.tertiaryContainer,
@@ -69,11 +72,12 @@ ThemeData myDarkTheme = ThemeData(
     elevation: 0,
     titleTextStyle: TextStyle(
       fontSize: 22,
-      color: darkColorScheme.onSurface,
+      color: darkColorScheme.onPrimaryContainer,
       fontWeight: FontWeight.bold,
     ),
     iconTheme: IconThemeData(
       color: darkColorScheme.onPrimaryContainer,
     ),
   ),
+  scaffoldBackgroundColor: darkColorScheme.background,
 );

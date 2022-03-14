@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/pages/journal_page.dart';
+import 'package:my_journal/pages/settings_page.dart';
 import 'package:my_journal/services/firestore_service.dart';
 import 'package:my_journal/utils/color_schemes.dart';
 import 'package:my_journal/utils/helpers.dart';
@@ -30,12 +31,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MyJournal'),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {},
-        //     icon: const Icon(Icons.settings_outlined),
-        //   )
-        // ],
+        actions: [
+          IconButton(
+            onPressed: () => goToPage(context, page: const SettingsPage()),
+            icon: const Icon(Icons.settings_outlined),
+          )
+        ],
       ),
       //
       body: StreamBuilder<QuerySnapshot>(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_journal/utils/color_schemes.dart';
+import 'package:my_journal/utils/helpers.dart';
 
 class MyCard extends StatelessWidget {
   final VoidCallback onTap;
@@ -20,13 +20,11 @@ class MyCard extends StatelessWidget {
       child: Material(
         elevation: 2.2,
         borderRadius: BorderRadius.circular(12.0),
-        color: true
-            ? lightColorScheme.primaryContainer
-            : darkColorScheme.primaryContainer,
+        color: Theme.of(context).colorScheme.primaryContainer,
         child: InkWell(
           borderRadius: BorderRadius.circular(12.0),
           onTap: onTap,
-          splashColor: lightColorScheme.surfaceVariant,
+          splashColor: Theme.of(context).colorScheme.surfaceVariant,
           child: Container(
             padding: const EdgeInsets.all(12.0),
             width: double.maxFinite,

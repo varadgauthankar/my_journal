@@ -36,3 +36,7 @@ Widget myCircularProgressIndicator({double? size}) {
     child: const CircularProgressIndicator(),
   );
 }
+
+ColorScheme getColorScheme(BuildContext context) {
+  return Theme.of(context).colorScheme;
+}

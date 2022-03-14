@@ -30,7 +30,7 @@ class JournalCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: lightColorScheme.onPrimaryContainer,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
           ),
           spacer(height: 6.0),
@@ -41,7 +41,7 @@ class JournalCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.normal,
-              color: lightColorScheme.onPrimaryContainer,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
           ),
         ],
