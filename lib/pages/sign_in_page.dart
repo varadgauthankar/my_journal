@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_journal/providers/auth_provider.dart';
-import 'package:my_journal/utils/color_schemes.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
@@ -20,14 +19,12 @@ class SignInPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               spacer(height: screenSize.height * .25),
-              _topHeading(),
+              _topHeading(context),
               const Spacer(),
               GoogleSignInButton(
-                onPressed: () {
-                  value.signInWithGoogle();
-                },
+                onPressed: () => value.signInWithGoogle(),
               ),
-              spacer(height: 50),
+              spacer(height: screenSize.height * .02),
             ],
           ),
         ),
@@ -35,7 +32,7 @@ class SignInPage extends StatelessWidget {
     });
   }
 
-  Widget _topHeading() {
+  Widget _topHeading(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -51,7 +48,7 @@ class SignInPage extends StatelessWidget {
             fontSize: 46,
             height: .9,
             fontWeight: FontWeight.bold,
-            color: false ? darkColorScheme.primary : lightColorScheme.primary,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ],

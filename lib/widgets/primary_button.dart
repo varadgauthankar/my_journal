@@ -26,11 +26,10 @@ class GoogleSignInButton extends StatelessWidget {
           ],
         ),
         style: TextButton.styleFrom(
-          // TODO: replace with theme checker
-          backgroundColor: false
-              ? darkColorScheme.primaryContainer
-              : lightColorScheme.primaryContainer,
-          primary: false ? Colors.white : Colors.black,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          primary: Theme.of(context).brightness == Brightness.light
+              ? Colors.white
+              : Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50.0),
           ),
