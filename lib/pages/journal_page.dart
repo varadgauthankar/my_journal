@@ -65,10 +65,11 @@ class _JournalPageState extends State<JournalPage> {
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           children: [
-            Text(
-              DateFormatter.getJournalCreatedDateWithTime(
-                  widget.journal!.createdAt!),
-            ),
+            if (widget.isEdit)
+              Text(
+                DateFormatter.getJournalCreatedDateWithTime(
+                    widget.journal!.createdAt!),
+              ),
             TextFormField(
               controller: value.titleController,
               style: const TextStyle(
