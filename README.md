@@ -1,16 +1,38 @@
-# my_journal
+<p align="center">
+<img style= "border-radius : 8px " height="150px" width="150px" src="branding/app_icon.png" alt="logo"/>
+</p>
 
-A new Flutter project.
+# MyJournal
 
-## Getting Started
+ <hr />
 
-This project is a starting point for a Flutter application.
+A simple and secure app to write down your day!
 
-A few resources to get you started if this is your first Flutter project:
+<p align="center">
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<a href='https://play.google.com/store/apps/details?id=me.varad.my_journal'>
+<img style= "border-radius : 8px " height="100px"" src="branding/google-play-badge.png" alt="gymlog"/>
+</a>
+</p>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<p align="center">
+<a href="https://my-journal-5d53e.firebaseapp.com/#/">Try on web </a>
+</p>
+
+## Screenshots
+
+<p>
+<img height="328px" width="175px" src="branding/screenshots/s5.png" alt="4"/>
+<img height="328px" width="175px" src="branding/screenshots/s6.png" alt="4"/>
+<img height="328px" width="175px" src="branding/screenshots/s2.png" alt="1"/>
+<img height="328px" width="175px" src="branding/screenshots/s3.png" alt="2"/>
+<img height="328px" width="175px" src="branding/screenshots/s4.png" alt="3"/>
+</p>
+
+## Contributing
+
+Found any bugs? Have any suggestions or code improvements? [Submit an issue](https://github.com/varadgauthankar/my_journal/issues) or fork and send a [pull request](https://github.com/varadgauthankar/my_journal/pulls) with your changes. All contributions are more than welcome.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://choosealicense.com/licenses/mit/) file for details.
