@@ -19,7 +19,7 @@ class ThemeProvider extends ChangeNotifier {
 
   void _getThemeFromPrefs() async {
     final _prefs = await SharedPreferences.getInstance();
-    final themeFromPrefs = ThemeMode.values[_prefs.getInt(_key) ?? 2];
+    final themeFromPrefs = ThemeMode.values[_prefs.getInt(_key) ?? 1];
     _themeMode = themeFromPrefs;
     notifyListeners();
   }
