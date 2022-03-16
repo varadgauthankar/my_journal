@@ -86,6 +86,7 @@ class _JournalPageState extends State<JournalPage> {
                 ),
               ),
               TextFormField(
+                autofocus: !widget.isEdit,
                 controller: value.descriptionController,
                 style: const TextStyle(
                   fontSize: 20,
