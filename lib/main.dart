@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<ThemeProvider>(builder: (context, value, child) {
         return MaterialApp(
-          title: 'Flutter Demo',
+          title: 'MyJournal',
           theme: myLightTheme,
           darkTheme: myDarkTheme,
           themeMode: value.themeMode,
