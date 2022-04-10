@@ -63,6 +63,15 @@ class _JournalPageState extends State<JournalPage> {
                       icon: const Icon(EvaIcons.trashOutline),
                     )
                   : const SizedBox.shrink(),
+              IconButton(
+                onPressed: () => value.handleSavingJournal(
+                  context,
+                  isEdit: widget.isEdit,
+                ),
+                icon: value.state == JournalProviderState.loading
+                    ? myCircularProgressIndicator(size: 18)
+                    : const Icon(EvaIcons.checkmark),
+              )
             ],
           ),
           body: ListView(
@@ -99,15 +108,6 @@ class _JournalPageState extends State<JournalPage> {
                 maxLines: null,
               ),
             ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => value.handleSavingJournal(
-              context,
-              isEdit: widget.isEdit,
-            ),
-            child: value.state == JournalProviderState.loading
-                ? myCircularProgressIndicator(size: 18)
-                : const Icon(EvaIcons.checkmark),
           ),
         ),
       );
