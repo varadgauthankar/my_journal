@@ -4,6 +4,7 @@ import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/providers/journal_provider.dart';
 import 'package:my_journal/utils/date_formatter.dart';
 import 'package:my_journal/utils/helpers.dart';
+import 'package:my_journal/widgets/quill_editor.dart';
 import 'package:provider/provider.dart';
 
 class JournalPage extends StatefulWidget {
@@ -74,40 +75,53 @@ class _JournalPageState extends State<JournalPage> {
               )
             ],
           ),
-          body: ListView(
-            physics: const BouncingScrollPhysics(),
+          body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            children: [
-              if (widget.isEdit)
-                Text(
-                  DateFormatter.getJournalCreatedDateWithTime(
-                      widget.journal!.createdAt!),
+            child: CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              // padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (widget.isEdit)
+                        Text(
+                          DateFormatter.getJournalCreatedDateWithTime(
+                              widget.journal!.createdAt!),
+                        ),
+                      TextFormField(
+                        controller: value.titleController,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: _getDefaultJournalTitle(),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              TextFormField(
-                controller: value.titleController,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
+                SliverFillRemaining(
+                  child: MyQuillEditor.editor(
+                    controller: value.quillController,
+                    autoFocus: !widget.isEdit,
+                    placeholder: 'How was your day?',
+                  ),
                 ),
-                decoration: InputDecoration(
-                  hintText: _getDefaultJournalTitle(),
-                  border: InputBorder.none,
-                ),
-              ),
-              TextFormField(
-                autofocus: !widget.isEdit,
-                controller: value.descriptionController,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal,
-                ),
-                decoration: const InputDecoration(
-                  hintText: 'How was your day?',
-                  border: InputBorder.none,
-                ),
-                maxLines: null,
-              ),
-            ],
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 50,
+                  ),
+                )
+              ],
+            ),
+          ),
+          bottomSheet: MyQuillEditor.toolbar(
+            context,
+            controller: value.quillController,
           ),
         ),
       );
