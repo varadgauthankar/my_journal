@@ -11,7 +11,6 @@ enum JournalProviderState { initial, loading, complete, error }
 class JournalProvider extends ChangeNotifier {
   final FirestoreService _firestoreService = FirestoreService();
   final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
 
   var _quillController = QuillController.basic();
   QuillController get quillController => _quillController;
@@ -20,7 +19,6 @@ class JournalProvider extends ChangeNotifier {
   JournalProviderState get state => _state;
 
   TextEditingController get titleController => _titleController;
-  TextEditingController get descriptionController => _descriptionController;
 
   Journal? _existingJournal;
 
@@ -120,7 +118,6 @@ class JournalProvider extends ChangeNotifier {
 
   void _clearControllers() {
     _titleController.clear();
-    _descriptionController.clear();
     _quillController.clear();
   }
 
