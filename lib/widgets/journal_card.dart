@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/pages/journal_page.dart';
 import 'package:my_journal/utils/helpers.dart';
@@ -11,6 +14,22 @@ class JournalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+
+    String _getJournalDescription() {
+      try {
+        var json = jsonDecode(journal.description!);
+        quill.QuillController _controller = quill.QuillController(
+          document: quill.Document.fromJson(json),
+          selection: const TextSelection.collapsed(offset: 0),
+        );
+
+        return _controller.document
+            .getPlainText(0, _controller.document.length);
+      } catch (_) {
+        return journal.description ?? '';
+      }
+    }
+
     return MyCard(
       height: screenSize.height * .11,
       onTap: () => goToPage(context,
@@ -33,7 +52,7 @@ class JournalCard extends StatelessWidget {
           ),
           spacer(height: 6.0),
           Text(
-            journal.description ?? '',
+            _getJournalDescription(),
             maxLines: 2,
             overflow: TextOverflow.fade,
             style: TextStyle(

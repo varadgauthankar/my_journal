@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/services/firestore_service.dart';
 import 'package:my_journal/utils/date_formatter.dart';
@@ -8,13 +11,14 @@ enum JournalProviderState { initial, loading, complete, error }
 class JournalProvider extends ChangeNotifier {
   final FirestoreService _firestoreService = FirestoreService();
   final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
+
+  var _quillController = QuillController.basic();
+  QuillController get quillController => _quillController;
 
   JournalProviderState _state = JournalProviderState.initial;
   JournalProviderState get state => _state;
 
   TextEditingController get titleController => _titleController;
-  TextEditingController get descriptionController => _descriptionController;
 
   Journal? _existingJournal;
 
@@ -22,8 +26,11 @@ class JournalProvider extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   bool _isChangesMade() {
+    final encodedText =
+        jsonEncode(_quillController.document.toDelta().toJson());
+
     if (_existingJournal?.title != _titleController.text ||
-        _existingJournal?.description != _descriptionController.text) {
+        _existingJournal?.description != encodedText) {
       return true;
     } else {
       return false;
@@ -33,21 +40,31 @@ class JournalProvider extends ChangeNotifier {
   void setInitialJournalData(Journal? journal) {
     if (journal != null) {
       _titleController.text = journal.title ?? '';
-      _descriptionController.text = journal.description ?? '';
+      // _descriptionController.text = journal.description ?? '';
+
+      var myJson = jsonDecode(journal.description!);
+      _quillController = QuillController(
+        document: Document.fromJson(myJson),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+
       _existingJournal = journal;
       notifyListeners();
     }
   }
 
   Future<void> _createJournal() async {
-    if (_descriptionController.text.isNotEmpty) {
+    if (_quillController.document.length > 1) {
       _setState(JournalProviderState.loading);
       try {
+        final encodedText =
+            jsonEncode(_quillController.document.toDelta().toJson());
+
         final journalToCreate = Journal(
           title: _titleController.text.isEmpty
               ? DateFormatter.formatToAppStandard(DateTime.now().toString())
               : _titleController.text,
-          description: _descriptionController.text,
+          description: encodedText,
           createdAt: DateTime.now().toString(),
           updatedAt: DateTime.now().toString(),
         );
@@ -63,12 +80,15 @@ class JournalProvider extends ChangeNotifier {
   }
 
   Future<void> _updateJournal() async {
-    if (_descriptionController.text.isNotEmpty) {
+    if (_quillController.document.length > 1) {
       _setState(JournalProviderState.loading);
       try {
+        final encodedText =
+            jsonEncode(_quillController.document.toDelta().toJson());
+
         final updatedJournal = _existingJournal!
           ..title = _titleController.text
-          ..description = _descriptionController.text
+          ..description = encodedText
           ..updatedAt = DateTime.now().toString();
 
         await _firestoreService.update(updatedJournal);
@@ -98,7 +118,7 @@ class JournalProvider extends ChangeNotifier {
 
   void _clearControllers() {
     _titleController.clear();
-    _descriptionController.clear();
+    _quillController.clear();
   }
 
   void handleSavingJournal(BuildContext context, {required bool isEdit}) async {
