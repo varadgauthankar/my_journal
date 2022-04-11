@@ -105,17 +105,15 @@ class _JournalPageState extends State<JournalPage> {
                   ),
                 ),
                 SliverFillRemaining(
-                  child: MyQuillEditor.editor(
-                    controller: value.quillController,
-                    autoFocus: !widget.isEdit,
-                    placeholder: 'How was your day?',
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 42.0),
+                    child: MyQuillEditor.editor(
+                      controller: value.quillController,
+                      autoFocus: !widget.isEdit,
+                      placeholder: 'How was your day?',
+                    ),
                   ),
                 ),
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 50,
-                  ),
-                )
               ],
             ),
           ),
