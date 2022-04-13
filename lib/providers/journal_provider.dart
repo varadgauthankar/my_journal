@@ -42,11 +42,20 @@ class JournalProvider extends ChangeNotifier {
       _titleController.text = journal.title ?? '';
       // _descriptionController.text = journal.description ?? '';
 
-      var myJson = jsonDecode(journal.description!);
-      _quillController = QuillController(
-        document: Document.fromJson(myJson),
-        selection: const TextSelection.collapsed(offset: 0),
-      );
+      try {
+        var myJson = jsonDecode(journal.description!);
+        _quillController = QuillController(
+          document: Document.fromJson(myJson),
+          selection: const TextSelection.collapsed(offset: 0),
+        );
+      } catch (e) {
+        _quillController = QuillController(
+          document: Document.fromJson([
+            {'insert': (journal.description! + '\n')},
+          ]),
+          selection: const TextSelection.collapsed(offset: 0),
+        );
+      }
 
       _existingJournal = journal;
       notifyListeners();
