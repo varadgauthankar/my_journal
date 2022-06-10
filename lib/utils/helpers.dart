@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_journal/utils/sort_by_options.dart';
 
 Widget spacer({double? height, double? width}) {
   return SizedBox(
@@ -39,4 +40,20 @@ Widget myCircularProgressIndicator({double? size}) {
 
 ColorScheme getColorScheme(BuildContext context) {
   return Theme.of(context).colorScheme;
+}
+
+extension Formatting on String {
+  String toFirstLetterCapital() {
+    return substring(0, 1).toUpperCase() + substring(1);
+  }
+}
+
+extension Parsing on SortBy {
+  String toMyString() {
+    if (this == SortBy.createdAt) {
+      return 'Created at';
+    } else {
+      return 'Updated at';
+    }
+  }
 }

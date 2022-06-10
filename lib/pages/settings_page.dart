@@ -1,8 +1,10 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/providers/auth_provider.dart';
+import 'package:my_journal/providers/settings_provider.dart';
 import 'package:my_journal/providers/theme_provider.dart';
 import 'package:my_journal/utils/helpers.dart';
+import 'package:my_journal/utils/sort_by_options.dart';
 import 'package:my_journal/widgets/my_card.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +16,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  List<Widget> buildDarkModeChips(ThemeProvider value) {
+  List<Widget> _buildDarkModeChips(ThemeProvider value) {
     List<Widget> choices = [];
     for (var theme in ThemeMode.values) {
       choices.add(Padding(
@@ -23,10 +25,30 @@ class _SettingsPageState extends State<SettingsPage> {
           backgroundColor: getColorScheme(context).tertiaryContainer,
           selectedColor: getColorScheme(context).primary,
           elevation: 2,
-          label: Text(theme.name),
+          label: Text(theme.name.toFirstLetterCapital()),
           selected: value.themeMode == theme,
           onSelected: (selected) {
             value.setTheme(theme);
+          },
+        ),
+      ));
+    }
+    return choices;
+  }
+
+  List<Widget> _buildSortByChips(SettingsProvider value) {
+    List<Widget> choices = [];
+    for (var sortBy in SortBy.values) {
+      choices.add(Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: ChoiceChip(
+          backgroundColor: getColorScheme(context).tertiaryContainer,
+          selectedColor: getColorScheme(context).primary,
+          elevation: 2,
+          label: Text(sortBy.toMyString()),
+          selected: value.sortBy == sortBy,
+          onSelected: (selected) {
+            value.setSortBy(sortBy);
           },
         ),
       ));
@@ -49,12 +71,13 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           _profileCard(),
           _appThemeCard(),
+          _journalSortCard(),
         ],
       ),
     );
   }
 
-  Consumer<ThemeProvider> _appThemeCard() {
+  Widget _appThemeCard() {
     return Consumer<ThemeProvider>(
       builder: (context, value, child) {
         return MyCard(
@@ -63,7 +86,7 @@ class _SettingsPageState extends State<SettingsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'App Theme',
+                'App theme',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0,
@@ -72,7 +95,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               spacer(height: 4),
               Wrap(
-                children: buildDarkModeChips(value),
+                children: _buildDarkModeChips(value),
               )
             ],
           ),
@@ -81,7 +104,34 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Consumer<AuthProvider> _profileCard() {
+  Widget _journalSortCard() {
+    return Consumer<SettingsProvider>(
+      builder: (context, value, child) {
+        return MyCard(
+          onTap: () {},
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Sort journals by',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+              ),
+              spacer(height: 4),
+              Wrap(
+                children: _buildSortByChips(value),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _profileCard() {
     return Consumer<AuthProvider>(builder: (context, value, child) {
       final user = value.getCurrentUser();
       return MyCard(
@@ -89,7 +139,8 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Row(
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage(user!.photoURL!),
+              backgroundImage: NetworkImage(user?.photoURL ?? ''),
+              onBackgroundImageError: (obj, stack) {},
             ),
             spacer(width: 8),
             Column(
@@ -97,7 +148,7 @@ class _SettingsPageState extends State<SettingsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  user.displayName!,
+                  user?.displayName ?? '',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                     fontSize: 18,
@@ -105,7 +156,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 Text(
-                  user.email!,
+                  user?.email ?? '',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                     fontSize: 12,
