@@ -5,10 +5,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/pages/journal_page.dart';
 import 'package:my_journal/pages/settings_page.dart';
+import 'package:my_journal/providers/settings_provider.dart';
 import 'package:my_journal/services/firestore_service.dart';
 import 'package:my_journal/utils/color_schemes.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/journal_card.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -39,55 +41,60 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       //
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _firestoreService!.journals!
-            .orderBy('updatedAt', descending: true)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return _exceptionWidget(isError: true);
-          }
-          if (snapshot.data?.size == 0) {
-            return _exceptionWidget();
-          }
-          if (snapshot.hasData) {
-            final journals =
-                snapshot.data?.docs.map((e) => Journal.fromSnapshot(e));
+      body: Consumer<SettingsProvider>(
+        builder: (context, value, _) {
+          return StreamBuilder<QuerySnapshot>(
+            stream: _firestoreService!.journals!
+                .orderBy(value.sortBy.name, descending: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return _exceptionWidget(isError: true);
+              }
+              if (snapshot.data?.size == 0) {
+                return _exceptionWidget();
+              }
+              if (snapshot.hasData) {
+                final journals =
+                    snapshot.data?.docs.map((e) => Journal.fromSnapshot(e));
 
-            if (screenSize.width > 768) {
-              return GridView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                itemCount: journals?.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisExtent: 110,
-                ),
-                itemBuilder: (context, index) {
-                  final journal = journals?.elementAt(index);
-                  final decryptedJournal = Journal.decrypt(journal!);
-                  return JournalCard(decryptedJournal);
-                },
-              );
-            } else {
-              return ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                physics: const BouncingScrollPhysics(),
-                itemCount: journals?.length,
-                itemBuilder: ((context, index) {
-                  final journal = journals?.elementAt(index);
-                  final decryptedJournal = Journal.decrypt(journal!);
-                  return JournalCard(decryptedJournal);
-                }),
-              );
-            }
-          }
-          //
-          else {
-            return const SizedBox.shrink();
-          }
+                if (screenSize.width > 768) {
+                  return GridView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                    itemCount: journals?.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisExtent: 110,
+                    ),
+                    itemBuilder: (context, index) {
+                      final journal = journals?.elementAt(index);
+                      final decryptedJournal = Journal.decrypt(journal!);
+                      return JournalCard(decryptedJournal);
+                    },
+                  );
+                } else {
+                  return ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: journals?.length,
+                    itemBuilder: ((context, index) {
+                      final journal = journals?.elementAt(index);
+                      final decryptedJournal = Journal.decrypt(journal!);
+                      return JournalCard(decryptedJournal);
+                    }),
+                  );
+                }
+              }
+              //
+              else {
+                return const SizedBox.shrink();
+              }
+            },
+          );
         },
       ),
 

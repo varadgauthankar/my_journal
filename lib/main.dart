@@ -4,6 +4,7 @@ import 'package:my_journal/pages/home_page.dart';
 import 'package:my_journal/pages/sign_in_page.dart';
 import 'package:my_journal/providers/auth_provider.dart';
 import 'package:my_journal/providers/journal_provider.dart';
+import 'package:my_journal/providers/settings_provider.dart';
 import 'package:my_journal/providers/theme_provider.dart';
 import 'package:my_journal/utils/themes.dart';
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => JournalProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => SettingsProvider()),
       ],
       child: Consumer<ThemeProvider>(builder: (context, value, child) {
         return MaterialApp(
