@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:my_journal/models/journal.dart';
+import 'package:my_journal/models/label.dart';
 import 'package:my_journal/services/firestore_service.dart';
 import 'package:my_journal/utils/date_formatter.dart';
 
@@ -24,6 +25,14 @@ class JournalProvider extends ChangeNotifier {
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
+
+  List<Label> _labels = [];
+  List<Label> get labels => _labels;
+
+  void setLabels(List<Label> labels) {
+    _labels.addAll(labels);
+    notifyListeners();
+  }
 
   bool _isChangesMade() {
     final encodedText =

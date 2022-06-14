@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:my_journal/models/label.dart';
 
 class LabelsDelegatePage extends SearchDelegate {
-  List<Label> labels = [
+  final List<Label?>? labels;
+
+  LabelsDelegatePage({this.labels});
+
+  List<Label> labelss = [
     Label(label: 'love'),
     Label(label: 'sad'),
     Label(label: 'gegeg'),
@@ -14,7 +18,7 @@ class LabelsDelegatePage extends SearchDelegate {
 
   Widget _buildLabelsCheckboxList() {
     final filteredLabels =
-        labels.where((element) => element.label!.contains(query)).toList();
+        labelss.where((element) => element.label!.contains(query)).toList();
     return StatefulBuilder(
       builder: ((context, setState) {
         return ListView.builder(

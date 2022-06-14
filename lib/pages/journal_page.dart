@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/models/journal.dart';
+import 'package:my_journal/models/label.dart';
 import 'package:my_journal/pages/labels_deligate_page.dart';
 import 'package:my_journal/providers/journal_provider.dart';
 import 'package:my_journal/utils/date_formatter.dart';
@@ -22,9 +23,18 @@ class JournalPage extends StatefulWidget {
 }
 
 class _JournalPageState extends State<JournalPage> {
+  //todo: temp, remove later
+  List<Label> tempLabels = [Label(label: 'love'), Label(label: 'sad')];
+
   String _getDefaultJournalTitle() {
     final String _todaysDate = DateTime.now().toString();
     return DateFormatter.formatToAppStandard(_todaysDate);
+  }
+
+  Widget _buildListOfLabels(List<Label> labels) {
+    return Wrap(
+      children: labels.map((e) => Chip(label: Text(e.label ?? ''))).toList(),
+    );
   }
 
   @override
@@ -61,13 +71,13 @@ class _JournalPageState extends State<JournalPage> {
             actions: [
               IconButton(
                 onPressed: () async {
+                  // returns labels from labels deligate page
                   final labels = await showSearch(
                     context: context,
-                    delegate: LabelsDelegatePage(),
+                    delegate: LabelsDelegatePage(labels: tempLabels),
                   );
 
-                  print('====================');
-                  print(labels);
+                  value.setLabels(labels);
                 },
                 icon: const Icon(Icons.new_label_outlined),
               ),
@@ -103,6 +113,10 @@ class _JournalPageState extends State<JournalPage> {
                           DateFormatter.getJournalCreatedDateWithTime(
                               widget.journal!.createdAt!),
                         ),
+
+                      // build labels
+                      _buildListOfLabels(value.labels),
+
                       TextFormField(
                         controller: value.titleController,
                         style: const TextStyle(
