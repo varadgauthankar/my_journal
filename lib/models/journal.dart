@@ -1,3 +1,4 @@
+import 'package:my_journal/models/label.dart';
 import 'package:my_journal/services/encryption_service.dart';
 
 class Journal {
@@ -6,6 +7,7 @@ class Journal {
   String? description;
   String? createdAt;
   String? updatedAt;
+  List<Label>? labels;
 
   Journal({
     this.id,
@@ -13,6 +15,7 @@ class Journal {
     this.description,
     this.createdAt,
     this.updatedAt,
+    this.labels,
   });
 
   Map<String, dynamic> toJson() => {
@@ -21,22 +24,34 @@ class Journal {
         'description': description,
         'createdAt': createdAt,
         'updatedAt': updatedAt,
+        'labels': labels?.map((e) => e.toJson()).toList(),
       };
 
-  static Journal fromJson(Map<String, dynamic> json) => Journal(
-        id: json['id'],
-        title: json['title'],
-        description: json['description'],
-        createdAt: json['createdAt'],
-        updatedAt: json['updatedAt'],
-      );
+  Journal.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    description = json['description'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    labels = <Label>[];
 
-  Journal.fromSnapshot(snapshot)
-      : id = snapshot.data()['id'],
-        title = snapshot.data()['title'],
-        description = snapshot.data()['description'],
-        createdAt = snapshot.data()['createdAt'],
-        updatedAt = snapshot.data()['updatedAt'];
+    if (json['labels'] != null) {
+      labels = json['labels']?.map((e) => Label.fromJson(e))?.toList();
+    }
+  }
+
+  Journal.fromSnapshot(snapshot) {
+    id = snapshot.data()['id'];
+    title = snapshot.data()['title'];
+    description = snapshot.data()['description'];
+    createdAt = snapshot.data()['createdAt'];
+    updatedAt = snapshot.data()['updatedAt'];
+    labels = <Label>[];
+
+    if (snapshot.data()['labels'] != null) {
+      snapshot.data()['labels']?.forEach((e) => labels?.add(Label.fromJson(e)));
+    }
+  }
 
   static Journal encrypt(Journal journal) {
     EncryptionService _encryptionService = EncryptionService();

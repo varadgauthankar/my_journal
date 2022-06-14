@@ -48,9 +48,10 @@ class JournalProvider extends ChangeNotifier {
 
   void setInitialJournalData(Journal? journal) {
     if (journal != null) {
+      print(journal.toJson());
       _titleController.text = journal.title ?? '';
       // _descriptionController.text = journal.description ?? '';
-
+      _labels = journal.labels ?? [];
       try {
         var myJson = jsonDecode(journal.description!);
         _quillController = QuillController(
@@ -85,6 +86,7 @@ class JournalProvider extends ChangeNotifier {
           description: encodedText,
           createdAt: DateTime.now().toString(),
           updatedAt: DateTime.now().toString(),
+          labels: labels,
         );
         await _firestoreService.create(journalToCreate);
         _setState(JournalProviderState.complete);
@@ -107,6 +109,7 @@ class JournalProvider extends ChangeNotifier {
         final updatedJournal = _existingJournal!
           ..title = _titleController.text
           ..description = encodedText
+          ..labels = labels
           ..updatedAt = DateTime.now().toString();
 
         await _firestoreService.update(updatedJournal);
@@ -137,6 +140,7 @@ class JournalProvider extends ChangeNotifier {
   void _clearControllers() {
     _titleController.clear();
     _quillController.clear();
+    _labels.clear();
   }
 
   void handleSavingJournal(BuildContext context, {required bool isEdit}) async {

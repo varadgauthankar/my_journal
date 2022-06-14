@@ -23,9 +23,6 @@ class JournalPage extends StatefulWidget {
 }
 
 class _JournalPageState extends State<JournalPage> {
-  //todo: temp, remove later
-  List<Label> tempLabels = [Label(label: 'love'), Label(label: 'sad')];
-
   String _getDefaultJournalTitle() {
     final String _todaysDate = DateTime.now().toString();
     return DateFormatter.formatToAppStandard(_todaysDate);
@@ -74,7 +71,8 @@ class _JournalPageState extends State<JournalPage> {
                   // returns labels from labels deligate page
                   final labels = await showSearch(
                     context: context,
-                    delegate: LabelsDelegatePage(labels: tempLabels),
+                    delegate:
+                        LabelsDelegatePage(labels: widget.journal?.labels),
                   );
 
                   value.setLabels(labels);
