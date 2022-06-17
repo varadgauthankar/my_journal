@@ -24,6 +24,11 @@ class _SettingsPageState extends State<SettingsPage> {
         child: ChoiceChip(
           backgroundColor: getColorScheme(context).tertiaryContainer,
           selectedColor: getColorScheme(context).primary,
+          labelStyle: TextStyle(
+            color: value.themeMode == theme
+                ? Theme.of(context).colorScheme.onPrimary
+                : Theme.of(context).colorScheme.onTertiaryContainer,
+          ),
           elevation: 2,
           label: Text(theme.name.toFirstLetterCapital()),
           selected: value.themeMode == theme,
@@ -44,6 +49,11 @@ class _SettingsPageState extends State<SettingsPage> {
         child: ChoiceChip(
           backgroundColor: getColorScheme(context).tertiaryContainer,
           selectedColor: getColorScheme(context).primary,
+          labelStyle: TextStyle(
+            color: value.sortBy == sortBy
+                ? Theme.of(context).colorScheme.onPrimary
+                : Theme.of(context).colorScheme.onTertiaryContainer,
+          ),
           elevation: 2,
           label: Text(sortBy.toMyString()),
           selected: value.sortBy == sortBy,

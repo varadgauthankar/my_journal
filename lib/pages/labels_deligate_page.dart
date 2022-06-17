@@ -12,6 +12,12 @@ class LabelsDelegatePage extends SearchDelegate<List<Label>> {
     Label(label: 'sad'),
     Label(label: 'gegeg'),
     Label(label: 'adad'),
+    Label(label: 'fa'),
+    Label(label: 'ga'),
+    Label(label: 'gga'),
+    Label(label: 'adf'),
+    Label(label: 'af'),
+    Label(label: 'af'),
   ];
 
   final List<Label> _selectedLabels = [];
