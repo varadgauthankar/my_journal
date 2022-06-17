@@ -28,10 +28,32 @@ class _JournalPageState extends State<JournalPage> {
     return DateFormatter.formatToAppStandard(_todaysDate);
   }
 
-  Widget _buildListOfLabels(List<Label> labels) {
+  Widget _buildListOfLabels(List<Label> labels,
+      {required JournalProvider provider}) {
     return Wrap(
-      children: labels.map((e) => Chip(label: Text(e.label ?? ''))).toList(),
+      spacing: 4,
+      children: labels
+          .map((e) => ActionChip(
+                onPressed: () {
+                  _openSearchDelegate(provider);
+                },
+                label: Text(e.label ?? ''),
+                backgroundColor:
+                    Theme.of(context).colorScheme.secondaryContainer,
+              ))
+          .toList(),
     );
+  }
+
+  void _openSearchDelegate(JournalProvider value) async {
+    final labels = await showSearch(
+      context: context,
+      delegate: LabelsDelegatePage(
+        journalLabels: value.journalLabels,
+      ),
+    );
+
+    value.setJournalLabels(labels);
   }
 
   @override
@@ -68,15 +90,7 @@ class _JournalPageState extends State<JournalPage> {
             actions: [
               IconButton(
                 onPressed: () async {
-                  // returns labels from labels deligate page
-                  final labels = await showSearch(
-                    context: context,
-                    delegate: LabelsDelegatePage(
-                      journalLabels: value.journalLabels,
-                    ),
-                  );
-
-                  value.setJournalLabels(labels);
+                  _openSearchDelegate(value);
                 },
                 icon: const Icon(Icons.new_label_outlined),
               ),
@@ -113,7 +127,7 @@ class _JournalPageState extends State<JournalPage> {
                         ),
 
                       // build labels
-                      _buildListOfLabels(value.journalLabels),
+                      _buildListOfLabels(value.journalLabels, provider: value),
 
                       TextFormField(
                         controller: value.titleController,
