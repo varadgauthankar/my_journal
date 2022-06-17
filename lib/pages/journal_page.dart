@@ -28,8 +28,10 @@ class _JournalPageState extends State<JournalPage> {
     return DateFormatter.formatToAppStandard(_todaysDate);
   }
 
-  Widget _buildListOfLabels(List<Label> labels,
-      {required JournalProvider provider}) {
+  Widget _buildListOfLabels(
+    List<Label> labels, {
+    required JournalProvider provider,
+  }) {
     return Wrap(
       spacing: 4,
       children: labels

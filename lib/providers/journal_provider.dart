@@ -40,7 +40,8 @@ class JournalProvider extends ChangeNotifier {
         jsonEncode(_quillController.document.toDelta().toJson());
 
     if (_existingJournal?.title != _titleController.text ||
-        _existingJournal?.description != encodedText) {
+        _existingJournal?.description != encodedText ||
+        _existingJournal?.labels != _journalLabels) {
       return true;
     } else {
       return false;
@@ -85,7 +86,7 @@ class JournalProvider extends ChangeNotifier {
           description: encodedText,
           createdAt: DateTime.now().toString(),
           updatedAt: DateTime.now().toString(),
-          // labels: labels,
+          labels: _journalLabels,
         );
         await _firestoreService.create(journalToCreate);
         _setState(JournalProviderState.complete);
@@ -108,7 +109,7 @@ class JournalProvider extends ChangeNotifier {
         final updatedJournal = _existingJournal!
           ..title = _titleController.text
           ..description = encodedText
-          // ..labels = labels
+          ..labels = _journalLabels
           ..updatedAt = DateTime.now().toString();
 
         await _firestoreService.update(updatedJournal);
