@@ -104,9 +104,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               spacer(height: 4),
-              Wrap(
-                children: _buildDarkModeChips(value),
-              )
+              Wrap(children: _buildDarkModeChips(value))
             ],
           ),
         );
@@ -131,9 +129,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               spacer(height: 4),
-              Wrap(
-                children: _buildSortByChips(value),
-              )
+              Wrap(children: _buildSortByChips(value))
             ],
           ),
         );
