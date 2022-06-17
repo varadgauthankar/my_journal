@@ -26,11 +26,12 @@ class JournalProvider extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  List<Label> _labels = [];
-  List<Label> get labels => _labels;
+  List<Label> _journalLabels = [];
+  List<Label> get journalLabels => _journalLabels;
 
-  void setLabels(List<Label> labels) {
-    _labels.addAll(labels);
+  void setJournalLabels(List<Label>? labels) {
+    _journalLabels.clear();
+    _journalLabels = labels ?? [];
     notifyListeners();
   }
 
@@ -48,10 +49,8 @@ class JournalProvider extends ChangeNotifier {
 
   void setInitialJournalData(Journal? journal) {
     if (journal != null) {
-      print(journal.toJson());
       _titleController.text = journal.title ?? '';
-      // _descriptionController.text = journal.description ?? '';
-      _labels = journal.labels ?? [];
+      _journalLabels = journal.labels ?? [];
       try {
         var myJson = jsonDecode(journal.description!);
         _quillController = QuillController(
@@ -86,7 +85,7 @@ class JournalProvider extends ChangeNotifier {
           description: encodedText,
           createdAt: DateTime.now().toString(),
           updatedAt: DateTime.now().toString(),
-          labels: labels,
+          // labels: labels,
         );
         await _firestoreService.create(journalToCreate);
         _setState(JournalProviderState.complete);
@@ -109,7 +108,7 @@ class JournalProvider extends ChangeNotifier {
         final updatedJournal = _existingJournal!
           ..title = _titleController.text
           ..description = encodedText
-          ..labels = labels
+          // ..labels = labels
           ..updatedAt = DateTime.now().toString();
 
         await _firestoreService.update(updatedJournal);
@@ -140,7 +139,7 @@ class JournalProvider extends ChangeNotifier {
   void _clearControllers() {
     _titleController.clear();
     _quillController.clear();
-    _labels.clear();
+    _journalLabels.clear();
   }
 
   void handleSavingJournal(BuildContext context, {required bool isEdit}) async {

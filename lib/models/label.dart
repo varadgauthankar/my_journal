@@ -1,7 +1,9 @@
-class Label {
-  Label({this.label});
+import 'package:equatable/equatable.dart';
 
-  String? label;
+class Label extends Equatable {
+  const Label({this.label});
+
+  final String? label;
 
   Map<String, dynamic> toJson() => {'label': label};
 
@@ -9,4 +11,7 @@ class Label {
       Label(label: json['label']);
 
   Label.fromSnapshot(snapshot) : label = snapshot.data()['label'];
+
+  @override
+  List<Object?> get props => [label];
 }

@@ -71,11 +71,12 @@ class _JournalPageState extends State<JournalPage> {
                   // returns labels from labels deligate page
                   final labels = await showSearch(
                     context: context,
-                    delegate:
-                        LabelsDelegatePage(labels: widget.journal?.labels),
+                    delegate: LabelsDelegatePage(
+                      journalLabels: value.journalLabels,
+                    ),
                   );
 
-                  value.setLabels(labels);
+                  value.setJournalLabels(labels);
                 },
                 icon: const Icon(Icons.new_label_outlined),
               ),
@@ -100,7 +101,6 @@ class _JournalPageState extends State<JournalPage> {
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
-              // padding: const EdgeInsets.symmetric(horizontal: 12.0),
               slivers: [
                 SliverToBoxAdapter(
                   child: Column(
@@ -113,7 +113,7 @@ class _JournalPageState extends State<JournalPage> {
                         ),
 
                       // build labels
-                      _buildListOfLabels(value.labels),
+                      _buildListOfLabels(value.journalLabels),
 
                       TextFormField(
                         controller: value.titleController,

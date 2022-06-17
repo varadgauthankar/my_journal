@@ -12,6 +12,7 @@ dependencies:
   cloud_firestore: ^3.1.10
   cupertino_icons: ^1.0.2
   encrypt: ^5.0.1
+  equatable: ^2.0.3
   eva_icons_flutter: ^3.1.0
   firebase_auth: ^3.3.10
   firebase_core: ^1.13.1

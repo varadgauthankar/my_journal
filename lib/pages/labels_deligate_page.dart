@@ -2,25 +2,44 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/models/label.dart';
 
-class LabelsDelegatePage extends SearchDelegate {
-  final List<Label?>? labels;
+class LabelsDelegatePage extends SearchDelegate<List<Label>> {
+  final List<Label> journalLabels;
 
-  LabelsDelegatePage({this.labels});
+  LabelsDelegatePage({required this.journalLabels});
 
-  List<Label> labelss = [
+  List<Label> dummyLabels = [
     Label(label: 'love'),
     Label(label: 'sad'),
     Label(label: 'gegeg'),
     Label(label: 'adad'),
   ];
 
-  List<Label> _selectedLabels = [];
+  final List<Label> _selectedLabels = [];
+
+  bool isFirst = true;
+
+  void _setLabels() {
+    // as this there is no initState() here
+    // this is a little workaround
+    // please don't judge me xD
+    if (isFirst) {
+      _selectedLabels.clear();
+      _selectedLabels.addAll(journalLabels);
+      isFirst = false;
+    }
+  }
+
+  List<Label> _getAllLabels() {
+    _setLabels();
+    return dummyLabels;
+  }
 
   Widget _buildLabelsCheckboxList() {
-    final filteredLabels =
-        labelss.where((element) => element.label!.contains(query)).toList();
     return StatefulBuilder(
       builder: ((context, setState) {
+        final filteredLabels = _getAllLabels()
+            .where((element) => element.label!.contains(query))
+            .toList();
         return ListView.builder(
           physics: const BouncingScrollPhysics(),
           itemCount: filteredLabels.length,
