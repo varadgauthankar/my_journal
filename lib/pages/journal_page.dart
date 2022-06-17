@@ -34,6 +34,7 @@ class _JournalPageState extends State<JournalPage> {
   }) {
     return Wrap(
       spacing: 4,
+      runSpacing: -10,
       children: labels
           .map((e) => ActionChip(
                 onPressed: () {
@@ -128,7 +129,9 @@ class _JournalPageState extends State<JournalPage> {
                       if (widget.isEdit)
                         Text(
                           DateFormatter.getJournalCreatedDateWithTime(
-                              widget.journal!.createdAt!),
+                            widget.journal!.createdAt!,
+                          ),
+                          style: Theme.of(context).textTheme.caption,
                         ),
 
                       // build labels
