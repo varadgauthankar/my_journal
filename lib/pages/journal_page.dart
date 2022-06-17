@@ -38,6 +38,9 @@ class _JournalPageState extends State<JournalPage> {
                   _openSearchDelegate(provider);
                 },
                 label: Text(e.label ?? ''),
+                labelStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
                 backgroundColor:
                     Theme.of(context).colorScheme.secondaryContainer,
               ))

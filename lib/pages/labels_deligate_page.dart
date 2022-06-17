@@ -46,6 +46,8 @@ class LabelsDelegatePage extends SearchDelegate<List<Label>> {
           itemBuilder: ((context, index) {
             final label = filteredLabels[index];
             return CheckboxListTile(
+              activeColor: Theme.of(context).colorScheme.primary,
+              checkColor: Theme.of(context).colorScheme.onPrimary,
               title: Text(label.label ?? ''),
               value: _selectedLabels.contains(label),
               onChanged: (value) {
