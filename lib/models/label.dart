@@ -1,16 +1,24 @@
 import 'package:equatable/equatable.dart';
 
 class Label extends Equatable {
-  const Label({this.label});
+  String? label;
+  String? id;
+  String? createdAt;
 
-  final String? label;
+  Label({this.id, this.label, this.createdAt});
 
   Map<String, dynamic> toJson() => {'label': label};
 
-  static Label fromJson(Map<String, dynamic> json) =>
-      Label(label: json['label']);
+  static Label fromJson(Map<String, dynamic> json) => Label(
+        id: json['id'],
+        label: json['label'],
+        createdAt: json['createdAt'],
+      );
 
-  Label.fromSnapshot(snapshot) : label = snapshot.data()['label'];
+  Label.fromSnapshot(snapshot)
+      : id = snapshot.data()['id'],
+        label = snapshot.data()['label'],
+        createdAt = snapshot.data()['createdAt'];
 
   @override
   List<Object?> get props => [label];

@@ -9,6 +9,7 @@ import 'package:my_journal/providers/settings_provider.dart';
 import 'package:my_journal/services/firestore_service.dart';
 import 'package:my_journal/utils/color_schemes.dart';
 import 'package:my_journal/utils/helpers.dart';
+import 'package:my_journal/widgets/exception_widget.dart';
 import 'package:my_journal/widgets/journal_card.dart';
 import 'package:provider/provider.dart';
 
@@ -52,10 +53,10 @@ class _HomePageState extends State<HomePage> {
                 return const Center(child: CircularProgressIndicator());
               }
               if (snapshot.hasError) {
-                return _exceptionWidget(isError: true);
+                return const ExceptionWidget(isError: true);
               }
               if (snapshot.data?.size == 0) {
-                return _exceptionWidget();
+                return const ExceptionWidget();
               }
               if (snapshot.hasData) {
                 final journals =
@@ -101,35 +102,6 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => goToPage(context, page: const JournalPage()),
         child: const Icon(Icons.add),
-      ),
-    );
-  }
-
-  Widget _exceptionWidget({bool isError = false}) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          isError
-              ? const Icon(
-                  EvaIcons.alertTriangleOutline,
-                  size: 80,
-                  color: Colors.amberAccent,
-                )
-              : SvgPicture.asset(
-                  'assets/empty.svg',
-                  height: 120,
-                ),
-          spacer(height: 12),
-          Text(
-            isError ? 'Something went wrong!' : 'No Journals yet!',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: isError ? FontWeight.w500 : FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          )
-        ],
       ),
     );
   }
