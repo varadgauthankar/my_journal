@@ -34,6 +34,7 @@ class MyQuillEditor {
         iconSelectedFillColor: Theme.of(context).colorScheme.primaryContainer,
         iconSelectedColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
+      showFontSize: false,
       showRedo: false,
       showUndo: false,
       showCodeBlock: false,
