@@ -7,7 +7,11 @@ class Label extends Equatable {
 
   Label({this.id, this.label, this.createdAt});
 
-  Map<String, dynamic> toJson() => {'label': label};
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'label': label,
+        'createdAt': createdAt,
+      };
 
   static Label fromJson(Map<String, dynamic> json) => Label(
         id: json['id'],
