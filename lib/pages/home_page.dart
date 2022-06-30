@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/pages/journal_page.dart';
 import 'package:my_journal/pages/settings_page.dart';
 import 'package:my_journal/providers/settings_provider.dart';
 import 'package:my_journal/services/firestore_service.dart';
-import 'package:my_journal/utils/color_schemes.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/exception_widget.dart';
 import 'package:my_journal/widgets/journal_card.dart';
@@ -26,6 +23,35 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _firestoreService = FirestoreService();
     super.initState();
+  }
+
+  _buildJournals(Iterable<Journal>? journals, Size screenSize) {
+    if (screenSize.width > 768) {
+      return GridView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+        itemCount: journals?.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisExtent: 110,
+        ),
+        itemBuilder: (context, index) {
+          final journal = journals?.elementAt(index);
+          final decryptedJournal = Journal.decrypt(journal!);
+          return JournalCard(decryptedJournal);
+        },
+      );
+    } else {
+      return ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+        physics: const BouncingScrollPhysics(),
+        itemCount: journals?.length,
+        itemBuilder: ((context, index) {
+          final journal = journals?.elementAt(index);
+          final decryptedJournal = Journal.decrypt(journal!);
+          return JournalCard(decryptedJournal);
+        }),
+      );
+    }
   }
 
   @override
@@ -61,34 +87,7 @@ class _HomePageState extends State<HomePage> {
               if (snapshot.hasData) {
                 final journals =
                     snapshot.data?.docs.map((e) => Journal.fromSnapshot(e));
-
-                if (screenSize.width > 768) {
-                  return GridView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                    itemCount: journals?.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisExtent: 110,
-                    ),
-                    itemBuilder: (context, index) {
-                      final journal = journals?.elementAt(index);
-                      final decryptedJournal = Journal.decrypt(journal!);
-                      return JournalCard(decryptedJournal);
-                    },
-                  );
-                } else {
-                  return ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: journals?.length,
-                    itemBuilder: ((context, index) {
-                      final journal = journals?.elementAt(index);
-                      final decryptedJournal = Journal.decrypt(journal!);
-                      return JournalCard(decryptedJournal);
-                    }),
-                  );
-                }
+                return _buildJournals(journals, screenSize);
               }
               //
               else {
