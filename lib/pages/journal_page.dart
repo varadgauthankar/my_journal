@@ -65,7 +65,7 @@ class _JournalPageState extends State<JournalPage> {
   @override
   void initState() {
     if (widget.isEdit) {
-      WidgetsBinding.instance!.addPostFrameCallback(((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback(((timeStamp) {
         Provider.of<JournalProvider>(context, listen: false)
             .setInitialJournalData(widget.journal);
       }));
