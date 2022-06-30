@@ -4,6 +4,7 @@ import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/pages/journal_page.dart';
 import 'package:my_journal/pages/settings_page.dart';
 import 'package:my_journal/providers/settings_provider.dart';
+import 'package:my_journal/providers/tags_provider.dart';
 import 'package:my_journal/services/firestore_service.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/exception_widget.dart';
@@ -68,11 +69,11 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       //
-      body: Consumer<SettingsProvider>(
-        builder: (context, value, _) {
+      body: Consumer2<SettingsProvider, TagsProvider>(
+        builder: (context, settings, tags, _) {
           return StreamBuilder<QuerySnapshot>(
             stream: _firestoreService!.journals!
-                .orderBy(value.sortBy.name, descending: true)
+                .orderBy(settings.sortBy.name, descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
