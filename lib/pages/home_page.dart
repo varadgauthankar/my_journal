@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/models/journal.dart';
+import 'package:my_journal/models/label.dart';
 import 'package:my_journal/pages/journal_page.dart';
 import 'package:my_journal/pages/settings_page.dart';
 import 'package:my_journal/providers/settings_provider.dart';
-import 'package:my_journal/providers/tags_provider.dart';
+import 'package:my_journal/providers/labels_provider.dart';
 import 'package:my_journal/services/firestore_service.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/exception_widget.dart';
@@ -20,23 +21,38 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   FirestoreService? _firestoreService;
+
   @override
   void initState() {
     _firestoreService = FirestoreService();
+    _checkForLabels();
     super.initState();
+  }
+
+  void _checkForLabels() {
+    _firestoreService?.labels?.snapshots().listen((event) {
+      if (event.docs.isNotEmpty) {
+        Provider.of<LabelsProvider>(context, listen: false)
+            .setLabelsExist(true);
+      } else {
+        Provider.of<LabelsProvider>(context, listen: false)
+            .setLabelsExist(false);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Consumer2<SettingsProvider, TagsProvider>(
-        builder: (context, settings, tags, _) {
+      body: Consumer2<SettingsProvider, LabelsProvider>(
+        builder: (context, settingsProvider, labelsProvider, _) {
           return CustomScrollView(
             physics: const BouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
                 floating: true,
+                pinned: labelsProvider.isLabelsExist == true,
                 title: const Text('MyJournal'),
                 actions: [
                   IconButton(
@@ -45,9 +61,11 @@ class _HomePageState extends State<HomePage> {
                     icon: const Icon(Icons.settings_outlined),
                   )
                 ],
-                bottom: _buildFilterChips(tags),
+                bottom: labelsProvider.isLabelsExist
+                    ? _buildFilterChips(labelsProvider)
+                    : null,
               ),
-              _buildJournalStream(settings, tags, screenSize)
+              _buildJournalStream(settingsProvider, labelsProvider, screenSize)
             ],
           );
         },
@@ -59,34 +77,44 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  PreferredSize _buildFilterChips(TagsProvider tags) {
+  PreferredSize _buildFilterChips(LabelsProvider tags) {
     return PreferredSize(
-      child: SizedBox(
-        height: 44,
-        child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 6.0),
-              child: FilterChip(
-                selected: true,
-                onSelected: (value) {},
-                label: Text('helllo'),
-              ),
-            );
-          },
-        ),
-      ),
-      preferredSize: const Size.fromHeight(40),
+      child: StreamBuilder<QuerySnapshot>(
+          stream: _firestoreService!.labels!.snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final labels =
+                  snapshot.data?.docs.map((e) => Label.fromSnapshot(e));
+              return SizedBox(
+                height: 40,
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: labels?.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 6.0),
+                      child: FilterChip(
+                        selected: true,
+                        onSelected: (value) {},
+                        label: Text(labels!.elementAt(index).label!),
+                      ),
+                    );
+                  },
+                ),
+              );
+            } else {
+              return SizedBox.shrink();
+            }
+          }),
+      preferredSize: const Size.fromHeight(44),
     );
   }
 
   SliverToBoxAdapter _buildJournalStream(
     SettingsProvider settings,
-    TagsProvider tagsProvider,
+    LabelsProvider tagsProvider,
     Size screenSize,
   ) {
     return SliverToBoxAdapter(
