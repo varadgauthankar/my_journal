@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  PreferredSize _buildFilterChips(LabelsProvider tags) {
+  PreferredSize _buildFilterChips(LabelsProvider labelsProvider) {
     return PreferredSize(
       child: StreamBuilder<QuerySnapshot>(
           stream: _firestoreService!.labels!.snapshots(),
@@ -93,12 +93,19 @@ class _HomePageState extends State<HomePage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: labels?.length,
                   itemBuilder: (context, index) {
+                    final label = labels?.elementAt(index);
                     return Padding(
                       padding: const EdgeInsets.only(right: 6.0),
                       child: FilterChip(
-                        selected: true,
-                        onSelected: (value) {},
-                        label: Text(labels!.elementAt(index).label!),
+                        selected: labelsProvider.selectedLabels.contains(label),
+                        onSelected: (selected) {
+                          if (selected) {
+                            labelsProvider.addLabel(label!);
+                          } else {
+                            labelsProvider.removeLabel(label!);
+                          }
+                        },
+                        label: Text(label?.label ?? ''),
                       ),
                     );
                   },
@@ -113,14 +120,22 @@ class _HomePageState extends State<HomePage> {
   }
 
   SliverToBoxAdapter _buildJournalStream(
-    SettingsProvider settings,
-    LabelsProvider tagsProvider,
+    SettingsProvider settingsProvider,
+    LabelsProvider labelsProvider,
     Size screenSize,
   ) {
     return SliverToBoxAdapter(
       child: StreamBuilder<QuerySnapshot>(
         stream: _firestoreService!.journals!
-            .orderBy(settings.sortBy.name, descending: true)
+            .where(
+              'labels',
+              arrayContainsAny: labelsProvider.selectedLabels.isEmpty
+                  ? null
+                  : labelsProvider.selectedLabels
+                      .map((e) => e.toJson())
+                      .toList(),
+            )
+            .orderBy(settingsProvider.sortBy.name, descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
