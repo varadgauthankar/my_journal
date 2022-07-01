@@ -26,15 +26,15 @@ class FirestoreService {
 
   Future<void> createLabel(Label label) async {
     final labelDoc = _labels?.doc();
-    final labelWithId = label..id = labelDoc?.id;
     await labelDoc
-        ?.set(labelWithId.toJson())
+        ?.set(label.toJson())
         .timeout(const Duration(seconds: 3), onTimeout: () {});
     // setting timeout so offline works
   }
 
   Future<void> deleteLabel(Label label) async {
-    final labelDoc = _labels?.doc(label.id);
+    throw UnimplementedError('delete not implemented');
+    final labelDoc = _labels?.doc('label.id');
     await labelDoc
         ?.delete()
         .timeout(const Duration(seconds: 3), onTimeout: () {});
@@ -42,7 +42,8 @@ class FirestoreService {
   }
 
   Future<void> updateLabel(Label label) async {
-    final labelDoc = _labels?.doc(label.id);
+    throw UnimplementedError('update not implemented');
+    final labelDoc = _labels?.doc('label.id');
     await labelDoc
         ?.update(label.toJson())
         .timeout(const Duration(seconds: 3), onTimeout: () {});

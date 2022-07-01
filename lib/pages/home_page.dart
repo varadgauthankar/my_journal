@@ -82,6 +82,7 @@ class _HomePageState extends State<HomePage> {
       child: StreamBuilder<QuerySnapshot>(
           stream: _firestoreService!.labels!.snapshots(),
           builder: (context, snapshot) {
+            // if data is present
             if (snapshot.hasData) {
               final labels =
                   snapshot.data?.docs.map((e) => Label.fromSnapshot(e));
@@ -97,6 +98,15 @@ class _HomePageState extends State<HomePage> {
                     return Padding(
                       padding: const EdgeInsets.only(right: 6.0),
                       child: FilterChip(
+                        selectedColor: Theme.of(context).colorScheme.primary,
+                        checkmarkColor: Theme.of(context).colorScheme.onPrimary,
+                        labelStyle: TextStyle(
+                          color: labelsProvider.selectedLabels.contains(label)
+                              ? Theme.of(context).colorScheme.onPrimary
+                              : Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.black,
+                        ),
                         selected: labelsProvider.selectedLabels.contains(label),
                         onSelected: (selected) {
                           if (selected) {
@@ -112,14 +122,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             } else {
-              return SizedBox.shrink();
+              return const SizedBox.shrink();
             }
           }),
       preferredSize: const Size.fromHeight(44),
     );
   }
 
-  SliverToBoxAdapter _buildJournalStream(
+  Widget _buildJournalStream(
     SettingsProvider settingsProvider,
     LabelsProvider labelsProvider,
     Size screenSize,
@@ -127,6 +137,7 @@ class _HomePageState extends State<HomePage> {
     return SliverToBoxAdapter(
       child: StreamBuilder<QuerySnapshot>(
         stream: _firestoreService!.journals!
+            // sorting journal based on labels
             .where(
               'labels',
               arrayContainsAny: labelsProvider.selectedLabels.isEmpty
@@ -135,24 +146,34 @@ class _HomePageState extends State<HomePage> {
                       .map((e) => e.toJson())
                       .toList(),
             )
+
+            // sorting journal based on created or updated time
             .orderBy(settingsProvider.sortBy.name, descending: true)
             .snapshots(),
         builder: (context, snapshot) {
+          // loading state
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
+
+          // error state
           if (snapshot.hasError) {
             return const ExceptionWidget(isError: true);
           }
+
+          // empty state
           if (snapshot.data?.size == 0) {
             return const ExceptionWidget();
           }
+
+          // journals state
           if (snapshot.hasData) {
             final journals =
                 snapshot.data?.docs.map((e) => Journal.fromSnapshot(e));
             return _buildJournals(journals, screenSize);
           }
-          //
+
+          // else
           else {
             return const SizedBox.shrink();
           }
@@ -161,7 +182,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _buildJournals(Iterable<Journal>? journals, Size screenSize) {
+  Widget _buildJournals(Iterable<Journal>? journals, Size screenSize) {
+    // for desktops
     if (screenSize.width > 768) {
       return GridView.builder(
         shrinkWrap: true,

@@ -136,7 +136,6 @@ class LabelsDelegatePage extends SearchDelegate<List<Label>> {
                         if (_formKey.currentState!.validate()) {
                           Label label = Label(
                             label: _textEditingController.text.trim(),
-                            createdAt: DateTime.now().toString(),
                           );
 
                           _firestoreService?.createLabel(label);
