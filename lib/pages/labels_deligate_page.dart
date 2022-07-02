@@ -121,11 +121,15 @@ class LabelsDelegatePage extends SearchDelegate<List<Label>> {
                         if (value!.isEmpty) {
                           return 'label cannot be empty';
                         }
+
+                        if (value.length > 12) {
+                          return 'label is too long';
+                        }
                         return null;
                       },
                       decoration: const InputDecoration(
                         label: Text('Label'),
-                        hintText: 'Label',
+                        hintText: 'label name',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -139,6 +143,7 @@ class LabelsDelegatePage extends SearchDelegate<List<Label>> {
                           );
 
                           _firestoreService?.createLabel(label);
+                          _textEditingController.clear();
                           Navigator.pop(context);
                         }
                       },
