@@ -31,10 +31,10 @@ class ExceptionWidget extends StatelessWidget {
             isError
                 ? 'Something went wrong!'
                 : isLabel
-                    ? 'No labels yet'
-                    : 'No journals yet!',
+                    ? 'No labels'
+                    : 'No journals!',
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: isError ? FontWeight.w500 : FontWeight.bold,
               color: Theme.of(context).colorScheme.primary,
             ),
