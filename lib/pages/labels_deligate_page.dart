@@ -14,6 +14,7 @@ class LabelsDelegatePage extends SearchDelegate<List<Label>> {
   final List<Label> _selectedLabels = [];
 
   bool isFirst = true;
+  bool isEdit = false;
 
   final FirestoreService? _firestoreService = FirestoreService();
 
@@ -137,55 +138,60 @@ class LabelsDelegatePage extends SearchDelegate<List<Label>> {
       IconButton(
         icon: const Icon(Icons.new_label_outlined),
         onPressed: () {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  title: const Text('Create new label'),
-                  content: Form(
-                    key: _formKey,
-                    child: TextFormField(
-                      controller: _textEditingController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'label cannot be empty';
-                        }
-
-                        if (value.length > 12) {
-                          return 'label is too long';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        label: Text('Label'),
-                        hintText: 'label name',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          Label label = Label(
-                            label: _textEditingController.text.trim(),
-                          );
-
-                          _firestoreService?.createLabel(label);
-                          _textEditingController.clear();
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: const Text('CREATE'),
-                    )
-                  ],
-                );
-              });
+          _showCreateLabelDialog(context);
         },
       ),
     ];
+  }
+
+  Future<dynamic> _showCreateLabelDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            title: const Text('Create new label'),
+            content: Form(
+              key: _formKey,
+              child: TextFormField(
+                autofocus: true,
+                controller: _textEditingController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'label cannot be empty';
+                  }
+
+                  if (value.length > 12) {
+                    return 'label is too long';
+                  }
+                  return null;
+                },
+                decoration: const InputDecoration(
+                  label: Text('Label'),
+                  hintText: 'label name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Label label = Label(
+                      label: _textEditingController.text.trim(),
+                    );
+
+                    _firestoreService?.createLabel(label);
+                    _textEditingController.clear();
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text('CREATE'),
+              )
+            ],
+          );
+        });
   }
 
   @override
