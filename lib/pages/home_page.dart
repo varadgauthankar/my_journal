@@ -135,49 +135,53 @@ class _HomePageState extends State<HomePage> {
     Size screenSize,
   ) {
     return SliverToBoxAdapter(
-      child: StreamBuilder<QuerySnapshot>(
-        stream: _firestoreService!.journals!
-            // sorting journal based on labels
-            .where(
-              'labels',
-              arrayContainsAny: labelsProvider.selectedLabels.isEmpty
-                  ? null
-                  : labelsProvider.selectedLabels
-                      .map((e) => e.toJson())
-                      .toList(),
-            )
+      child: SizedBox(
+        // to center vertically
+        height: screenSize.height * .65,
+        child: StreamBuilder<QuerySnapshot>(
+          stream: _firestoreService!.journals!
+              // sorting journal based on labels
+              .where(
+                'labels',
+                arrayContainsAny: labelsProvider.selectedLabels.isEmpty
+                    ? null
+                    : labelsProvider.selectedLabels
+                        .map((e) => e.toJson())
+                        .toList(),
+              )
 
-            // sorting journal based on created or updated time
-            .orderBy(settingsProvider.sortBy.name, descending: true)
-            .snapshots(),
-        builder: (context, snapshot) {
-          // loading state
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+              // sorting journal based on created or updated time
+              .orderBy(settingsProvider.sortBy.name, descending: true)
+              .snapshots(),
+          builder: (context, snapshot) {
+            // loading state
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          // error state
-          if (snapshot.hasError) {
-            return const ExceptionWidget(isError: true);
-          }
+            // error state
+            if (snapshot.hasError) {
+              return const ExceptionWidget(isError: true);
+            }
 
-          // empty state
-          if (snapshot.data?.size == 0) {
-            return const ExceptionWidget();
-          }
+            // empty state
+            if (snapshot.data?.size == 0) {
+              return const ExceptionWidget();
+            }
 
-          // journals state
-          if (snapshot.hasData) {
-            final journals =
-                snapshot.data?.docs.map((e) => Journal.fromSnapshot(e));
-            return _buildJournals(journals, screenSize);
-          }
+            // journals state
+            if (snapshot.hasData) {
+              final journals =
+                  snapshot.data?.docs.map((e) => Journal.fromSnapshot(e));
+              return _buildJournals(journals, screenSize);
+            }
 
-          // else
-          else {
-            return const SizedBox.shrink();
-          }
-        },
+            // else
+            else {
+              return const SizedBox.shrink();
+            }
+          },
+        ),
       ),
     );
   }
