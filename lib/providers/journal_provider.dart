@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:my_journal/models/journal.dart';
@@ -30,7 +31,7 @@ class JournalProvider extends ChangeNotifier {
   List<Label> get journalLabels => _journalLabels;
 
   void setJournalLabels(List<Label>? labels) {
-    _journalLabels.clear();
+    // _journalLabels.clear();
     _journalLabels = labels ?? [];
     notifyListeners();
   }
@@ -41,7 +42,7 @@ class JournalProvider extends ChangeNotifier {
 
     if (_existingJournal?.title != _titleController.text ||
         _existingJournal?.description != encodedText ||
-        _existingJournal?.labels != _journalLabels) {
+        !listEquals(_existingJournal?.labels, _journalLabels)) {
       return true;
     } else {
       return false;
