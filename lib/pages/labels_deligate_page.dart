@@ -3,6 +3,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/models/label.dart';
 import 'package:my_journal/services/firestore_service.dart';
+import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/exception_widget.dart';
 
 class LabelsDelegatePage extends SearchDelegate<List<Label>> {
@@ -40,55 +41,85 @@ class LabelsDelegatePage extends SearchDelegate<List<Label>> {
         return StreamBuilder<QuerySnapshot>(
             stream: _firestoreService?.labels?.snapshots(),
             builder: (context, snapshot) {
+              // loading state
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
+
+              // loading error
               if (snapshot.hasError) {
                 return const ExceptionWidget(
                   isError: true,
                   isLabel: true,
                 );
               }
+
+              // empty state
               if (snapshot.data?.size == 0) {
                 return const ExceptionWidget(
                   isLabel: true,
                 );
               }
 
+              // has labels state
               if (snapshot.hasData) {
                 final labels =
                     snapshot.data?.docs.map((e) => Label.fromSnapshot(e));
 
-                return ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: labels
-                      ?.where((element) => element.label!.contains(query))
-                      .toList()
-                      .length,
-                  itemBuilder: ((context, index) {
-                    final label = labels
-                        ?.where((element) => element.label!.contains(query))
+                if (labels!
+                    .where((element) => element.label!.contains(query))
+                    .toList()
+                    .isNotEmpty) {
+                  return ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: labels
+                        .where((element) => element.label!.contains(query))
                         .toList()
-                        .elementAt(index);
-                    return CheckboxListTile(
-                      activeColor: Theme.of(context).colorScheme.primary,
-                      checkColor: Theme.of(context).colorScheme.onPrimary,
-                      title: Text(label?.label ?? ''),
-                      value: _selectedLabels.contains(label),
-                      onChanged: (value) {
-                        if (value != null) {
-                          setState(() {
-                            if (value) {
-                              _selectedLabels.add(label!);
-                            } else {
-                              _selectedLabels.remove(label);
-                            }
-                          });
-                        }
-                      },
-                    );
-                  }),
-                );
+                        .length,
+                    itemBuilder: ((context, index) {
+                      final label = labels
+                          .where((element) => element.label!.contains(query))
+                          .toList()
+                          .elementAt(index);
+                      return CheckboxListTile(
+                        activeColor: Theme.of(context).colorScheme.primary,
+                        checkColor: Theme.of(context).colorScheme.onPrimary,
+                        title: Text(label.label ?? ''),
+                        value: _selectedLabels.contains(label),
+                        onChanged: (value) {
+                          if (value != null) {
+                            setState(() {
+                              if (value) {
+                                _selectedLabels.add(label);
+                              } else {
+                                _selectedLabels.remove(label);
+                              }
+                            });
+                          }
+                        },
+                      );
+                    }),
+                  );
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                        onPressed: () {
+                          Label label = Label(
+                            label: query,
+                          );
+
+                          _firestoreService?.createLabel(label);
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(EvaIcons.plusCircleOutline),
+                            spacer(width: 8),
+                            Text('Create "$query"'),
+                          ],
+                        )),
+                  );
+                }
               } else {
                 return const SizedBox.shrink();
               }
