@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:my_journal/pages/manage_labels_page.dart';
 import 'package:my_journal/providers/auth_provider.dart';
 import 'package:my_journal/providers/settings_provider.dart';
 import 'package:my_journal/providers/theme_provider.dart';
@@ -82,9 +83,32 @@ class _SettingsPageState extends State<SettingsPage> {
           _profileCard(),
           _appThemeCard(),
           _journalSortCard(),
+          _buildManageLabelsCard(),
         ],
       ),
     );
+  }
+
+  Widget _buildManageLabelsCard() {
+    return MyCard(
+        onTap: () {
+          goToPage(context, page: const ManageLabels());
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Manage Labels',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            ),
+            const Icon(EvaIcons.chevronRight),
+          ],
+        ));
   }
 
   Widget _appThemeCard() {

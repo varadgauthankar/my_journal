@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_journal/models/journal.dart';
@@ -33,12 +35,13 @@ class FirestoreService {
   }
 
   Future<void> deleteLabel(Label label) async {
-    throw UnimplementedError('delete not implemented');
-    final labelDoc = _labels?.doc('label.id');
-    await labelDoc
-        ?.delete()
-        .timeout(const Duration(seconds: 3), onTimeout: () {});
-    // setting timeout so offline works
+    final allLabels = await _labels?.get();
+
+    for (final doc in allLabels!.docs) {
+      if (label.label == Label.fromSnapshot(doc).label) {
+        _labels?.doc(doc.id).delete();
+      }
+    }
   }
 
   Future<void> updateLabel(Label label) async {
