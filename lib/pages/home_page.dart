@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _firestoreService = FirestoreService();
+    _firestoreService?.moveFireStoreCollection();
     _checkForLabels();
     super.initState();
   }
