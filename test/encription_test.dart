@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/services/encryption_service.dart';
@@ -16,10 +14,6 @@ main() {
   });
 
   test('decryption', () {
-    const text = 'hello world';
-    final encryptedText = _encryptionService.encrypt(text);
-    final decryptedText = _encryptionService.decrypt(encryptedText);
-
     final j = Journal(title: 'sat, 12 Mar', description: 'world');
 
     final encryptedjournal = Journal.encrypt(j);

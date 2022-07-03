@@ -23,7 +23,7 @@ void replacePage(BuildContext context, {required Widget page}) {
 }
 
 void showSnackbar(BuildContext context, String text) {
-  WidgetsBinding.instance!.addPostFrameCallback(
+  WidgetsBinding.instance.addPostFrameCallback(
     ((timeStamp) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
     }),

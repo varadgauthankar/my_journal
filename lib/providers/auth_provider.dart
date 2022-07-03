@@ -22,7 +22,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       await _googleSignInService.signInWithGoogle();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 

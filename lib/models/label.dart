@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 class Label extends Equatable {
-  String? label;
+  final String? label;
 
-  Label({this.label});
+  const Label({this.label});
 
   Map<String, dynamic> toJson() => {
         'label': label,

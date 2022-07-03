@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_journal/models/journal.dart';
@@ -46,11 +44,6 @@ class FirestoreService {
 
   Future<void> updateLabel(Label label) async {
     throw UnimplementedError('update not implemented');
-    final labelDoc = _labels?.doc('label.id');
-    await labelDoc
-        ?.update(label.toJson())
-        .timeout(const Duration(seconds: 3), onTimeout: () {});
-    // setting timeout so offline works
   }
 
   // Journal stuff below

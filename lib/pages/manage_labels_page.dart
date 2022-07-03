@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/services/firestore_service.dart';
 import 'package:my_journal/widgets/exception_widget.dart';
@@ -30,7 +29,7 @@ class _ManageLabelsState extends State<ManageLabels> {
             onPressed: () {
               _showCreateLabelDialog(context);
             },
-          ),
+          )
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(

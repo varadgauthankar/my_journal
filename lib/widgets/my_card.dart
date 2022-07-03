@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_journal/utils/helpers.dart';
 
 class MyCard extends StatelessWidget {
   final VoidCallback onTap;
