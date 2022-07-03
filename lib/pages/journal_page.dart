@@ -155,6 +155,7 @@ class _JournalPageState extends State<JournalPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 42.0),
                     child: MyQuillEditor.editor(
+                      context,
                       controller: value.quillController,
                       autoFocus: !widget.isEdit,
                       placeholder: 'How was your day?',
