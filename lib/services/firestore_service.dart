@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/models/label.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FirestoreService {
   FirebaseFirestore? _firestore;
@@ -17,9 +18,9 @@ class FirestoreService {
     _firestore = FirebaseFirestore.instance;
     _auth = FirebaseAuth.instance;
     _uid = _auth?.currentUser?.uid;
-    _journals = _firestore!.collection(_uid!);
-    _labels =
-        _firestore!.collection('users_settings').doc(_uid).collection('labels');
+    _journals =
+        _firestore?.collection('users').doc(_uid).collection('journals');
+    _labels = _firestore?.collection('users').doc(_uid).collection('labels');
   }
 
   // labels
@@ -73,5 +74,54 @@ class FirestoreService {
   Future<void> delete(Journal journal) async {
     final journalDoc = _journals!.doc(journal.id);
     await journalDoc.delete();
+  }
+
+  // this method only runs once,
+  // only used to structure the firestore database
+  // I am stupid lol
+  void moveFireStoreCollection() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final firestoreMovingDone = prefs.getBool('firestoreMovingDone') ?? false;
+
+    if (!firestoreMovingDone) {
+      final newJournalColl =
+          _firestore?.collection('users').doc(_uid).collection('journals');
+
+      final oldJournalColl = _firestore?.collection(_uid!);
+
+      final oldLabelsColl = _firestore!
+          .collection('users_settings')
+          .doc(_uid)
+          .collection('labels');
+
+      final newLabelsColl =
+          _firestore?.collection('users').doc(_uid).collection('labels');
+
+      final allExistingJournals = await oldJournalColl?.get();
+      final allExistingLabels = await oldLabelsColl.get();
+
+      final batch = FirebaseFirestore.instance.batch();
+
+      if (allExistingJournals!.docs.isNotEmpty) {
+        for (final journalSnapshot in allExistingJournals.docs) {
+          Journal journal = Journal.fromSnapshot(journalSnapshot);
+          batch.set(newJournalColl!.doc(journal.id), journal.toJson());
+          batch.delete(journalSnapshot.reference);
+        }
+      }
+
+      if (allExistingLabels.docs.isNotEmpty) {
+        for (final labelSnapshot in allExistingLabels.docs) {
+          Label label = Label.fromSnapshot(labelSnapshot);
+          batch.set(newLabelsColl!.doc(), label.toJson());
+          batch.delete(labelSnapshot.reference);
+        }
+      }
+
+      batch.commit();
+
+      prefs.setBool('firestoreMovingDone', true);
+    }
   }
 }
