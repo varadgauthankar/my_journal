@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
     return SliverToBoxAdapter(
       child: SizedBox(
         // to center vertically
-        height: screenSize.height * .65,
+        height: screenSize.height * .8,
         child: StreamBuilder<QuerySnapshot>(
           stream: _firestoreService!.journals!
               // sorting journal based on labels
