@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:my_journal/services/firestore_service.dart';
+import 'package:my_journal/services/firestore_journal_service.dart';
 import 'package:my_journal/widgets/exception_widget.dart';
 
 import '../models/label.dart';
@@ -13,7 +13,7 @@ class ManageLabels extends StatefulWidget {
 }
 
 class _ManageLabelsState extends State<ManageLabels> {
-  final FirestoreService _firestoreService = FirestoreService();
+  final FirestoreJournalService _firestoreService = FirestoreJournalService();
 
   final TextEditingController _textEditingController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

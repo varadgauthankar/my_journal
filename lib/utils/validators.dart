@@ -22,3 +22,12 @@ String? confirmPasswordValidator(String? str, String? value) {
     return 'Password does not match';
   }
 }
+
+String? pinValidator(String? str) {
+  Pattern pattern = r'^[0-9]{6}$';
+  RegExp regex = RegExp(pattern.toString());
+  if (!regex.hasMatch(str!)) {
+    return 'invalid pin';
+  }
+  return null;
+}

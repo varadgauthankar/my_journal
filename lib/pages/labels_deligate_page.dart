@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/models/label.dart';
-import 'package:my_journal/services/firestore_service.dart';
+import 'package:my_journal/services/firestore_journal_service.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/exception_widget.dart';
 
@@ -16,7 +16,7 @@ class LabelsDelegatePage extends SearchDelegate<List<Label>> {
   bool isFirst = true;
   bool isEdit = false;
 
-  final FirestoreService? _firestoreService = FirestoreService();
+  final FirestoreJournalService? _firestoreService = FirestoreJournalService();
 
   final TextEditingController _textEditingController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

@@ -1,9 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_journal/pages/auth_pages/auth_wrapper.dart';
 import 'package:my_journal/pages/home_page.dart';
-import 'package:my_journal/pages/sign_in_page.dart';
+import 'package:my_journal/pages/lock_screen_pages/create_pin_page.dart';
+import 'package:my_journal/pages/lock_screen_pages/lock_screen_page.dart';
+
+import 'package:my_journal/pages/auth_pages/sign_in_page.dart';
 import 'package:my_journal/providers/auth_provider.dart';
 import 'package:my_journal/providers/journal_provider.dart';
+import 'package:my_journal/providers/pin_provider.dart';
 import 'package:my_journal/providers/settings_provider.dart';
 import 'package:my_journal/providers/labels_provider.dart';
 import 'package:my_journal/providers/theme_provider.dart';
@@ -34,6 +39,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => SettingsProvider()),
         ChangeNotifierProvider(create: (_) => LabelsProvider()),
+        ChangeNotifierProvider(create: (_) => PinProvider()),
       ],
       child: Consumer<ThemeProvider>(builder: (context, value, child) {
         return MaterialApp(
@@ -41,26 +47,8 @@ class MyApp extends StatelessWidget {
           theme: myLightTheme,
           darkTheme: myDarkTheme,
           themeMode: value.themeMode,
-          home: const AuthenticationWrapper(),
+          home: const AuthWrapper(),
         );
-      }),
-    );
-  }
-}
-
-class AuthenticationWrapper extends StatelessWidget {
-  const AuthenticationWrapper({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: ((context, snapshot) {
-        if (snapshot.hasData) {
-          return const HomePage();
-        } else {
-          return const SignInPage();
-        }
       }),
     );
   }

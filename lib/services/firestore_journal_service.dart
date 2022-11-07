@@ -4,7 +4,7 @@ import 'package:my_journal/models/journal.dart';
 import 'package:my_journal/models/label.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FirestoreService {
+class FirestoreJournalService {
   FirebaseFirestore? _firestore;
   CollectionReference? _journals;
   CollectionReference? _labels;
@@ -14,7 +14,7 @@ class FirestoreService {
   CollectionReference? get journals => _journals;
   CollectionReference? get labels => _labels;
 
-  FirestoreService() {
+  FirestoreJournalService() {
     _firestore = FirebaseFirestore.instance;
     _auth = FirebaseAuth.instance;
     _uid = _auth?.currentUser?.uid;

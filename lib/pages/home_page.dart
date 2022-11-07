@@ -6,7 +6,7 @@ import 'package:my_journal/pages/journal_page.dart';
 import 'package:my_journal/pages/settings_page.dart';
 import 'package:my_journal/providers/settings_provider.dart';
 import 'package:my_journal/providers/labels_provider.dart';
-import 'package:my_journal/services/firestore_service.dart';
+import 'package:my_journal/services/firestore_journal_service.dart';
 import 'package:my_journal/utils/helpers.dart';
 import 'package:my_journal/widgets/exception_widget.dart';
 import 'package:my_journal/widgets/journal_card.dart';
@@ -20,11 +20,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  FirestoreService? _firestoreService;
+  FirestoreJournalService? _firestoreService;
 
   @override
   void initState() {
-    _firestoreService = FirestoreService();
+    _firestoreService = FirestoreJournalService();
     _firestoreService?.moveFireStoreCollection();
     _checkForLabels();
     super.initState();
