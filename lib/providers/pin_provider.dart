@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_journal/constants/prefs_string.dart';
 import 'package:my_journal/services/firestore_pin_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +27,7 @@ class PinProvider extends ChangeNotifier {
 
   Future<bool> createPin() async {
     _setState(PinState.loading);
+    final prefs = await SharedPreferences.getInstance();
 
     // validate the text field.
     if (_formKey.currentState!.validate()) {
@@ -35,6 +37,7 @@ class PinProvider extends ChangeNotifier {
         _setState(PinState.complete);
         // saves pin status to the prefs.
         _savePinStatusToPrefs(status: true);
+        prefs.setBool(PrefKeys.isPinSkipped, true);
         return true;
       } on FirebaseException catch (e) {
         _errorMessage = e.message;
@@ -68,9 +71,9 @@ class PinProvider extends ChangeNotifier {
     return false;
   }
 
-  void _setState(PinState state) {
-    _state = state;
-    notifyListeners();
+  Future<void> skipPinCreation() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(PrefKeys.isPinSkipped, true);
   }
 
   Future<void> _savePinStatusToPrefs({required bool status}) async {
@@ -78,5 +81,10 @@ class PinProvider extends ChangeNotifier {
     // used when the user opens the app next time.
     final prefs = await SharedPreferences.getInstance();
     prefs.setBool('isPin', status);
+  }
+
+  void _setState(PinState state) {
+    _state = state;
+    notifyListeners();
   }
 }

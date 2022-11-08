@@ -64,7 +64,10 @@ class CreatePinPage extends StatelessWidget {
                         padding: const EdgeInsets.all(12.0),
                         child: myCircularProgressIndicator(size: 16))
                     : TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          provider.skipPinCreation();
+                          replacePage(context, page: const HomePage());
+                        },
                         child: const Text('Continue without PIN'),
                       ),
               ],

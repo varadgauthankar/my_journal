@@ -4,24 +4,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class FirestorePinService {
   FirebaseFirestore? _firestore;
-  DocumentReference? _pin;
+  DocumentReference? _userDoc;
 
   String? _uid;
 
   FirestorePinService() {
     _firestore = FirebaseFirestore.instance;
     _uid = FirebaseAuth.instance.currentUser?.uid;
-    _pin = _firestore?.collection('users').doc(_uid);
+    _userDoc = _firestore?.collection('users').doc(_uid);
   }
 
   Future<void> createPin(int pin) async {
-    await _pin?.set({
+    await _userDoc?.set({
       'pin': pin,
     });
   }
 
   Future<int?> getPin() async {
-    final pin = await _pin?.get();
+    final pin = await _userDoc?.get();
     if (pin!.exists) {
       return pin['pin'];
     }
@@ -30,7 +30,14 @@ class FirestorePinService {
   }
 
   Future<bool> isPinExists() async {
-    final pin = await _pin?.get();
-    return pin?.exists ?? false;
+    final userDoc = await _userDoc?.get();
+
+    try {
+      // exception is thrown if the pin doesn't exist.
+      userDoc?.get('pin');
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
