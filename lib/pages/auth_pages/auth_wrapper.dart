@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_journal/constants/prefs_string.dart';
 import 'package:my_journal/pages/auth_pages/sign_in_page.dart';
 import 'package:my_journal/pages/home_page.dart';
-import 'package:my_journal/pages/lock_screen_pages/create_pin_page.dart';
+import 'package:my_journal/pages/lock_screen_pages/lock_screen_boarding_page.dart';
 import 'package:my_journal/pages/lock_screen_pages/lock_screen_page.dart';
 import 'package:my_journal/services/firestore_pin_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,7 +48,7 @@ class AuthWrapper extends StatelessWidget {
                 else if (prefs.getBool(PrefKeys.isPinSkipped) ?? false) {
                   return const HomePage();
                 } else {
-                  return const CreatePinPage();
+                  return const LockScreenBoardingPage();
                 }
               }
 

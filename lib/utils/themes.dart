@@ -4,6 +4,7 @@ import 'package:my_journal/utils/color_schemes.dart';
 ThemeData myLightTheme = ThemeData(
   // colorSchemeSeed: seed,
   colorScheme: lightColorScheme,
+  useMaterial3: true,
   // floating action theme
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: lightColorScheme.tertiaryContainer,
@@ -45,6 +46,8 @@ ThemeData myLightTheme = ThemeData(
 ThemeData myDarkTheme = ThemeData(
   // colorSchemeSeed: seed,
   colorScheme: darkColorScheme,
+  useMaterial3: true,
+
   // floating action theme
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: darkColorScheme.tertiaryContainer,

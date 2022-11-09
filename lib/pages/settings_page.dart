@@ -1,5 +1,6 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:my_journal/pages/auth_pages/sign_in_page.dart';
 import 'package:my_journal/pages/manage_labels_page.dart';
 import 'package:my_journal/providers/auth_provider.dart';
 import 'package:my_journal/providers/settings_provider.dart';
@@ -196,8 +197,14 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const Spacer(),
             TextButton(
-              onPressed: () =>
-                  value.signOut().then((value) => Navigator.pop(context)),
+              onPressed: () {
+                value.signOut().then(
+                      (value) => replaceAllPages(
+                        context,
+                        page: const SignInPage(),
+                      ),
+                    );
+              },
               child: const Text('LOG OUT'),
               style: TextButton.styleFrom(
                 primary: Theme.of(context).colorScheme.error,

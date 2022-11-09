@@ -22,6 +22,14 @@ void replacePage(BuildContext context, {required Widget page}) {
   );
 }
 
+void replaceAllPages(BuildContext context, {required Widget page}) {
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(builder: ((context) => page)),
+    (route) => false,
+  );
+}
+
 void showSnackbar(BuildContext context, String text) {
   WidgetsBinding.instance.addPostFrameCallback(
     ((timeStamp) {
