@@ -25,12 +25,13 @@ class _SettingsPageState extends State<SettingsPage> {
         child: ChoiceChip(
           backgroundColor: getColorScheme(context).tertiaryContainer,
           selectedColor: getColorScheme(context).primary,
+
           labelStyle: TextStyle(
             color: value.themeMode == theme
                 ? Theme.of(context).colorScheme.onPrimary
                 : Theme.of(context).colorScheme.onTertiaryContainer,
           ),
-          elevation: 2,
+          // elevation: 2,
           label: Text(theme.name.toFirstLetterCapital()),
           selected: value.themeMode == theme,
           onSelected: (selected) {
@@ -48,6 +49,11 @@ class _SettingsPageState extends State<SettingsPage> {
       choices.add(Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: ChoiceChip(
+          iconTheme: IconThemeData(
+            color: value.sortBy == sortBy
+                ? Theme.of(context).colorScheme.onPrimary
+                : Theme.of(context).colorScheme.onTertiaryContainer,
+          ),
           backgroundColor: getColorScheme(context).tertiaryContainer,
           selectedColor: getColorScheme(context).primary,
           labelStyle: TextStyle(
@@ -55,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ? Theme.of(context).colorScheme.onPrimary
                 : Theme.of(context).colorScheme.onTertiaryContainer,
           ),
-          elevation: 2,
+          // elevation: 2,
           label: Text(sortBy.toMyString()),
           selected: value.sortBy == sortBy,
           onSelected: (selected) {
