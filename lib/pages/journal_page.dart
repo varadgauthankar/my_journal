@@ -24,8 +24,8 @@ class JournalPage extends StatefulWidget {
 
 class _JournalPageState extends State<JournalPage> {
   String _getDefaultJournalTitle() {
-    final String _todaysDate = DateTime.now().toString();
-    return DateFormatter.formatToAppStandard(_todaysDate);
+    final String todaysDate = DateTime.now().toString();
+    return DateFormatter.formatToAppStandard(todaysDate);
   }
 
   Widget _buildListOfLabels(
@@ -68,6 +68,10 @@ class _JournalPageState extends State<JournalPage> {
       WidgetsBinding.instance.addPostFrameCallback(((timeStamp) {
         Provider.of<JournalProvider>(context, listen: false)
             .setInitialJournalData(widget.journal);
+      }));
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback(((timeStamp) {
+        Provider.of<JournalProvider>(context, listen: false).setJournalTitle();
       }));
     }
     super.initState();

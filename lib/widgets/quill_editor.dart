@@ -73,6 +73,8 @@ class MyQuillEditor {
       // showCameraButton: false,
       showClearFormat: true,
       showBackgroundColorButton: true,
+      showFontFamily: false,
+      showSearchButton: false,
     );
   }
 }

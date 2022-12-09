@@ -17,56 +17,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  List<Widget> _buildDarkModeChips(ThemeProvider value) {
-    List<Widget> choices = [];
-    for (var theme in ThemeMode.values) {
-      choices.add(Padding(
-        padding: const EdgeInsets.only(right: 8.0),
-        child: ChoiceChip(
-          backgroundColor: getColorScheme(context).tertiaryContainer,
-          selectedColor: getColorScheme(context).primary,
-          labelStyle: TextStyle(
-            color: value.themeMode == theme
-                ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onTertiaryContainer,
-          ),
-          elevation: 2,
-          label: Text(theme.name.toFirstLetterCapital()),
-          selected: value.themeMode == theme,
-          onSelected: (selected) {
-            value.setTheme(theme);
-          },
-        ),
-      ));
-    }
-    return choices;
-  }
-
-  List<Widget> _buildSortByChips(SettingsProvider value) {
-    List<Widget> choices = [];
-    for (var sortBy in SortBy.values) {
-      choices.add(Padding(
-        padding: const EdgeInsets.only(right: 8.0),
-        child: ChoiceChip(
-          backgroundColor: getColorScheme(context).tertiaryContainer,
-          selectedColor: getColorScheme(context).primary,
-          labelStyle: TextStyle(
-            color: value.sortBy == sortBy
-                ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onTertiaryContainer,
-          ),
-          elevation: 2,
-          label: Text(sortBy.toMyString()),
-          selected: value.sortBy == sortBy,
-          onSelected: (selected) {
-            value.setSortBy(sortBy);
-          },
-        ),
-      ));
-    }
-    return choices;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,11 +32,100 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           _profileCard(),
           _appThemeCard(),
+          _buildShowFilterChips(),
           _journalSortCard(),
           _buildManageLabelsCard(),
         ],
       ),
     );
+  }
+
+  List<Widget> _buildDarkModeChips(ThemeProvider value) {
+    List<Widget> choices = [];
+    for (var theme in ThemeMode.values) {
+      choices.add(Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: ChoiceChip(
+          backgroundColor: getColorScheme(context).tertiaryContainer,
+          selectedColor: getColorScheme(context).tertiary,
+
+          labelStyle: TextStyle(
+            color: value.themeMode == theme
+                ? Theme.of(context).colorScheme.onPrimary
+                : Theme.of(context).colorScheme.onTertiaryContainer,
+          ),
+          // elevation: 2,
+          label: Text(theme.name.toFirstLetterCapital()),
+          selected: value.themeMode == theme,
+          onSelected: (selected) {
+            value.setTheme(theme);
+          },
+        ),
+      ));
+    }
+    return choices;
+  }
+
+  Widget _buildShowFilterChips() {
+    return Consumer<SettingsProvider>(
+      builder: (context, myType, child) {
+        return MyCard(
+          onTap: () {
+            myType.setShowFilterChips(!myType.showFilterChips);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Show Filter Chips',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+              ),
+              Switch(
+                activeColor: Theme.of(context).colorScheme.tertiary,
+                value: myType.showFilterChips,
+                onChanged: (value) {
+                  myType.setShowFilterChips(value);
+                },
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  List<Widget> _buildSortByChips(SettingsProvider value) {
+    List<Widget> choices = [];
+    for (var sortBy in SortBy.values) {
+      choices.add(Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: ChoiceChip(
+          iconTheme: IconThemeData(
+            color: value.sortBy == sortBy
+                ? Theme.of(context).colorScheme.onPrimary
+                : Theme.of(context).colorScheme.onTertiaryContainer,
+          ),
+          backgroundColor: getColorScheme(context).tertiaryContainer,
+          selectedColor: getColorScheme(context).tertiary,
+          labelStyle: TextStyle(
+            color: value.sortBy == sortBy
+                ? Theme.of(context).colorScheme.onPrimary
+                : Theme.of(context).colorScheme.onTertiaryContainer,
+          ),
+          // elevation: 2,
+          label: Text(sortBy.toMyString()),
+          selected: value.sortBy == sortBy,
+          onSelected: (selected) {
+            value.setSortBy(sortBy);
+          },
+        ),
+      ));
+    }
+    return choices;
   }
 
   Widget _buildManageLabelsCard() {
@@ -180,7 +219,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 Text(
                   user?.displayName ?? '',
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.onSecondaryContainer,
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
@@ -188,7 +227,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 Text(
                   user?.email ?? '',
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.onSecondaryContainer,
                     fontSize: 12,
                   ),
                 ),
@@ -198,10 +237,10 @@ class _SettingsPageState extends State<SettingsPage> {
             TextButton(
               onPressed: () =>
                   value.signOut().then((value) => Navigator.pop(context)),
-              child: const Text('LOG OUT'),
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.error,
+                foregroundColor: Theme.of(context).colorScheme.error,
               ),
+              child: const Text('LOG OUT'),
             )
           ],
         ),

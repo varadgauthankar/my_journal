@@ -36,6 +36,11 @@ class JournalProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setJournalTitle() {
+    _titleController.text = _getDefaultJournalTitle();
+    notifyListeners();
+  }
+
   bool _isChangesMade() {
     final encodedText =
         jsonEncode(_quillController.document.toDelta().toJson());
@@ -136,6 +141,11 @@ class JournalProvider extends ChangeNotifier {
       // ignore: avoid_print
       print('DELETE EXCEPTION : $e');
     }
+  }
+
+  String _getDefaultJournalTitle() {
+    final String _todaysDate = DateTime.now().toString();
+    return DateFormatter.formatToAppStandard(_todaysDate);
   }
 
   void _clearControllers() {
