@@ -24,7 +24,7 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.only(right: 8.0),
         child: ChoiceChip(
           backgroundColor: getColorScheme(context).tertiaryContainer,
-          selectedColor: getColorScheme(context).primary,
+          selectedColor: getColorScheme(context).tertiary,
 
           labelStyle: TextStyle(
             color: value.themeMode == theme
@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 : Theme.of(context).colorScheme.onTertiaryContainer,
           ),
           backgroundColor: getColorScheme(context).tertiaryContainer,
-          selectedColor: getColorScheme(context).primary,
+          selectedColor: getColorScheme(context).tertiary,
           labelStyle: TextStyle(
             color: value.sortBy == sortBy
                 ? Theme.of(context).colorScheme.onPrimary
@@ -186,7 +186,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 Text(
                   user?.displayName ?? '',
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.onSecondaryContainer,
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
@@ -194,7 +194,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 Text(
                   user?.email ?? '',
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    color: Theme.of(context).colorScheme.onSecondaryContainer,
                     fontSize: 12,
                   ),
                 ),
@@ -204,10 +204,10 @@ class _SettingsPageState extends State<SettingsPage> {
             TextButton(
               onPressed: () =>
                   value.signOut().then((value) => Navigator.pop(context)),
-              child: const Text('LOG OUT'),
               style: TextButton.styleFrom(
-                primary: Theme.of(context).colorScheme.error,
+                foregroundColor: Theme.of(context).colorScheme.error,
               ),
+              child: const Text('LOG OUT'),
             )
           ],
         ),

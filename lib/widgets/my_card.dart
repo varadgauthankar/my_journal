@@ -23,12 +23,10 @@ class MyCard extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(8.0),
           onTap: onTap,
-          splashColor: Theme.of(context).colorScheme.primaryContainer,
           child: Container(
             padding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
             width: double.maxFinite,
-            // height: height ?? 100,
             child: child,
           ),
         ),

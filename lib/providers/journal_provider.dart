@@ -51,7 +51,7 @@ class JournalProvider extends ChangeNotifier {
 
   void setInitialJournalData(Journal? journal) {
     if (journal != null) {
-      _titleController.text = journal.title ?? '';
+      _titleController.text = journal.title ?? 'meow';
       _journalLabels = journal.labels ?? [];
       try {
         var myJson = jsonDecode(journal.description!);
@@ -136,6 +136,11 @@ class JournalProvider extends ChangeNotifier {
       // ignore: avoid_print
       print('DELETE EXCEPTION : $e');
     }
+  }
+
+  String _getDefaultJournalTitle() {
+    final String _todaysDate = DateTime.now().toString();
+    return DateFormatter.formatToAppStandard(_todaysDate);
   }
 
   void _clearControllers() {
