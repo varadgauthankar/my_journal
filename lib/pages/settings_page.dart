@@ -17,6 +17,28 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Settings'),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(EvaIcons.arrowBack),
+        ),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+        children: [
+          _profileCard(),
+          _appThemeCard(),
+          _journalSortCard(),
+          _buildManageLabelsCard(),
+        ],
+      ),
+    );
+  }
+
   List<Widget> _buildDarkModeChips(ThemeProvider value) {
     List<Widget> choices = [];
     for (var theme in ThemeMode.values) {
@@ -71,28 +93,6 @@ class _SettingsPageState extends State<SettingsPage> {
       ));
     }
     return choices;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(EvaIcons.arrowBack),
-        ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 6.0),
-        children: [
-          _profileCard(),
-          _appThemeCard(),
-          _journalSortCard(),
-          _buildManageLabelsCard(),
-        ],
-      ),
-    );
   }
 
   Widget _buildManageLabelsCard() {
