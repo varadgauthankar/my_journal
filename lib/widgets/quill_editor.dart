@@ -75,7 +75,6 @@ class MyQuillEditor {
       showBackgroundColorButton: true,
       showFontFamily: false,
       showSearchButton: false,
-      show
     );
   }
 }

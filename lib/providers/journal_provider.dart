@@ -36,6 +36,11 @@ class JournalProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setJournalTitle() {
+    _titleController.text = _getDefaultJournalTitle();
+    notifyListeners();
+  }
+
   bool _isChangesMade() {
     final encodedText =
         jsonEncode(_quillController.document.toDelta().toJson());
@@ -51,7 +56,7 @@ class JournalProvider extends ChangeNotifier {
 
   void setInitialJournalData(Journal? journal) {
     if (journal != null) {
-      _titleController.text = journal.title ?? 'meow';
+      _titleController.text = journal.title ?? '';
       _journalLabels = journal.labels ?? [];
       try {
         var myJson = jsonDecode(journal.description!);
