@@ -85,7 +85,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               Switch(
-                activeColor: Theme.of(context).colorScheme.primary,
+                activeColor: Theme.of(context).colorScheme.tertiary,
                 value: myType.showFilterChips,
                 onChanged: (value) {
                   myType.setShowFilterChips(value);
