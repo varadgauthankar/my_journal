@@ -32,6 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           _profileCard(),
           _appThemeCard(),
+          _buildShowFilterChips(),
           _journalSortCard(),
           _buildManageLabelsCard(),
         ],
@@ -63,6 +64,38 @@ class _SettingsPageState extends State<SettingsPage> {
       ));
     }
     return choices;
+  }
+
+  Widget _buildShowFilterChips() {
+    return Consumer<SettingsProvider>(
+      builder: (context, myType, child) {
+        return MyCard(
+          onTap: () {
+            myType.setShowFilterChips(!myType.showFilterChips);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Show Filter Chips',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+              ),
+              Switch(
+                activeColor: Theme.of(context).colorScheme.primary,
+                value: myType.showFilterChips,
+                onChanged: (value) {
+                  myType.setShowFilterChips(value);
+                },
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 
   List<Widget> _buildSortByChips(SettingsProvider value) {

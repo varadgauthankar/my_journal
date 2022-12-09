@@ -62,8 +62,10 @@ class _HomePageState extends State<HomePage> {
                     icon: const Icon(Icons.settings_outlined),
                   )
                 ],
-                bottom: !labelsProvider.isLabelsExist
-                    ? _buildFilterChips(labelsProvider)
+                bottom: settingsProvider.showFilterChips
+                    ? labelsProvider.isLabelsExist
+                        ? _buildFilterChips(labelsProvider)
+                        : null
                     : null,
               ),
               _buildJournalStream(settingsProvider, labelsProvider, screenSize)
