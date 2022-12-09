@@ -7,8 +7,8 @@ ThemeData myLightTheme = ThemeData(
   colorScheme: lightColorScheme,
   // floating action theme
   floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: lightColorScheme.tertiaryContainer,
-    foregroundColor: lightColorScheme.onTertiaryContainer,
+    backgroundColor: lightColorScheme.tertiary,
+    foregroundColor: lightColorScheme.onTertiary,
     // extendedSizeConstraints: const BoxConstraints.tightFor(
     //   height: 70,
     //   width: 150,
@@ -49,8 +49,8 @@ ThemeData myDarkTheme = ThemeData(
   colorScheme: darkColorScheme,
   // floating action theme
   floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: darkColorScheme.tertiaryContainer,
-    foregroundColor: darkColorScheme.onTertiaryContainer,
+    backgroundColor: darkColorScheme.tertiary,
+    foregroundColor: darkColorScheme.onTertiary,
     // extendedSizeConstraints: const BoxConstraints.tightFor(
     //   height: 70,
     //   width: 150,
