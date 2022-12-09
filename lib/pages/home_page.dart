@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                     icon: const Icon(Icons.settings_outlined),
                   )
                 ],
-                bottom: labelsProvider.isLabelsExist
+                bottom: !labelsProvider.isLabelsExist
                     ? _buildFilterChips(labelsProvider)
                     : null,
               ),
@@ -80,6 +80,7 @@ class _HomePageState extends State<HomePage> {
 
   PreferredSize _buildFilterChips(LabelsProvider labelsProvider) {
     return PreferredSize(
+      preferredSize: const Size.fromHeight(48),
       child: StreamBuilder<QuerySnapshot>(
           stream: _firestoreService!.labels!.snapshots(),
           builder: (context, snapshot) {
@@ -88,7 +89,7 @@ class _HomePageState extends State<HomePage> {
               final labels =
                   snapshot.data?.docs.map((e) => Label.fromSnapshot(e));
               return SizedBox(
-                height: 40,
+                height: 48,
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -99,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                     return Padding(
                       padding: const EdgeInsets.only(right: 6.0),
                       child: FilterChip(
-                        selectedColor: Theme.of(context).colorScheme.primary,
+                        selectedColor: Theme.of(context).colorScheme.tertiary,
                         checkmarkColor: Theme.of(context).colorScheme.onPrimary,
                         labelStyle: TextStyle(
                           color: labelsProvider.selectedLabels.contains(label)
@@ -126,7 +127,6 @@ class _HomePageState extends State<HomePage> {
               return const SizedBox.shrink();
             }
           }),
-      preferredSize: const Size.fromHeight(44),
     );
   }
 
