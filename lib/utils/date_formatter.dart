@@ -10,10 +10,13 @@ class DateFormatter {
   }
 
   static String getJournalCreatedDateWithTime(String date) {
-    DateTime now = DateTime.now();
-    DateTime journalDate = DateTime.parse(date);
+    DateTime journalDateParsed = DateTime.parse(date);
 
-    print(journalDate.difference(now).inDays);
+    DateTime now =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+    DateTime journalDate = DateTime(
+        journalDateParsed.year, journalDateParsed.month, journalDateParsed.day);
 
     if (now.difference(journalDate).inDays == 1) {
       return DateFormat('\'Yesterday at\' hh:mm aa')
