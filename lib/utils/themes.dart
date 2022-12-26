@@ -20,8 +20,8 @@ class MyThemes {
             ? colorScheme.secondaryContainer
             : lightColorScheme.secondaryContainer,
         selectedColor: colorScheme != null
-            ? colorScheme.tertiary
-            : lightColorScheme.tertiary,
+            ? colorScheme.primary
+            : lightColorScheme.primary,
       ),
       scaffoldBackgroundColor: colorScheme?.background,
     );
@@ -40,9 +40,8 @@ class MyThemes {
         backgroundColor: colorScheme != null
             ? colorScheme.secondaryContainer
             : darkColorScheme.secondaryContainer,
-        selectedColor: colorScheme != null
-            ? colorScheme.tertiary
-            : darkColorScheme.tertiary,
+        selectedColor:
+            colorScheme != null ? colorScheme.primary : darkColorScheme.primary,
       ),
       scaffoldBackgroundColor: colorScheme?.surface,
     );

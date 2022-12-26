@@ -1,6 +1,7 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:my_journal/pages/manage_labels_page.dart';
 import 'package:my_journal/providers/auth_provider.dart';
 import 'package:my_journal/providers/settings_provider.dart';
@@ -80,10 +81,18 @@ class _SettingsPageState extends State<SettingsPage> {
                       color: getColorScheme(context).onSurface,
                     ),
               ),
-              Switch(
-                activeColor: Theme.of(context).colorScheme.tertiary,
+              FlutterSwitch(
+                height: 34,
+                width: 56,
+                inactiveSwitchBorder: Border.all(
+                  width: 3,
+                  color: getColorScheme(context).secondary,
+                ),
+                activeColor: getColorScheme(context).primary,
+                inactiveColor: getColorScheme(context).secondaryContainer,
+                inactiveToggleColor: getColorScheme(context).secondary,
                 value: myType.showFilterChips,
-                onChanged: (value) {
+                onToggle: (value) {
                   myType.setShowFilterChips(value);
                 },
               )
