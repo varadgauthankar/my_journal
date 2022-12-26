@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:my_journal/utils/helpers.dart';
 import 'package:tuple/tuple.dart';
 
 class MyQuillEditor {
@@ -14,15 +15,14 @@ class MyQuillEditor {
       controller: controller,
       customStyles: DefaultStyles(
         paragraph: DefaultTextBlockStyle(
-            TextStyle(
-              fontSize: 18,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white
-                  : Colors.black,
-            ),
-            const Tuple2(2, 2),
-            const Tuple2(2, 2),
-            null),
+          TextStyle(
+            fontSize: 18,
+            color: getColorScheme(context).onBackground,
+          ),
+          const Tuple2(2, 2),
+          const Tuple2(2, 2),
+          null,
+        ),
       ),
       readOnly: false,
       scrollable: true,

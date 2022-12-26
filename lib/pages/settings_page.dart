@@ -1,4 +1,5 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+
 import 'package:flutter/material.dart';
 import 'package:my_journal/pages/manage_labels_page.dart';
 import 'package:my_journal/providers/auth_provider.dart';
@@ -28,7 +29,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         children: [
           _profileCard(),
           _appThemeCard(),
@@ -46,13 +47,10 @@ class _SettingsPageState extends State<SettingsPage> {
       choices.add(Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: ChoiceChip(
-          backgroundColor: getColorScheme(context).tertiaryContainer,
-          selectedColor: getColorScheme(context).tertiary,
-
           labelStyle: TextStyle(
             color: value.themeMode == theme
-                ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onTertiaryContainer,
+                ? Theme.of(context).colorScheme.onTertiary
+                : Theme.of(context).colorScheme.onSecondaryContainer,
           ),
           // elevation: 2,
           label: Text(theme.name.toFirstLetterCapital()),
@@ -78,11 +76,9 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               Text(
                 'Show Filter Chips',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: getColorScheme(context).onSurface,
+                    ),
               ),
               Switch(
                 activeColor: Theme.of(context).colorScheme.tertiary,
@@ -104,17 +100,10 @@ class _SettingsPageState extends State<SettingsPage> {
       choices.add(Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: ChoiceChip(
-          iconTheme: IconThemeData(
-            color: value.sortBy == sortBy
-                ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onTertiaryContainer,
-          ),
-          backgroundColor: getColorScheme(context).tertiaryContainer,
-          selectedColor: getColorScheme(context).tertiary,
           labelStyle: TextStyle(
             color: value.sortBy == sortBy
-                ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onTertiaryContainer,
+                ? Theme.of(context).colorScheme.onTertiary
+                : Theme.of(context).colorScheme.onSecondaryContainer,
           ),
           // elevation: 2,
           label: Text(sortBy.toMyString()),
@@ -139,11 +128,9 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             Text(
               'Manage Labels',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18.0,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: getColorScheme(context).onSurface,
+                  ),
             ),
             const Icon(EvaIcons.chevronRight),
           ],
@@ -160,11 +147,9 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               Text(
                 'App theme',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: getColorScheme(context).onSurface,
+                    ),
               ),
               spacer(height: 4),
               Wrap(children: _buildDarkModeChips(value))
@@ -185,11 +170,9 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               Text(
                 'Sort journals by',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: getColorScheme(context).onSurface,
+                    ),
               ),
               spacer(height: 4),
               Wrap(children: _buildSortByChips(value))
@@ -218,18 +201,15 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 Text(
                   user?.displayName ?? '',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: getColorScheme(context).onSurface,
+                      ),
                 ),
                 Text(
                   user?.email ?? '',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondaryContainer,
-                    fontSize: 12,
-                  ),
+                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        color: getColorScheme(context).onSurface,
+                      ),
                 ),
               ],
             ),

@@ -1,85 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:my_journal/utils/color_schemes.dart';
 
-ThemeData myLightTheme = ThemeData(
-  useMaterial3: true,
-  // colorSchemeSeed: seed,
-  colorScheme: lightColorScheme,
-  // floating action theme
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: lightColorScheme.tertiary,
-    foregroundColor: lightColorScheme.onTertiary,
-    // extendedSizeConstraints: const BoxConstraints.tightFor(
-    //   height: 70,
-    //   width: 150,
-    // ),
-    // sizeConstraints: const BoxConstraints.tightFor(
-    //   height: 70,
-    //   width: 70,
-    // ),
-    // extendedPadding: const EdgeInsets.all(22.0),
-    // extendedIconLabelSpacing: 16.0,
-    // shape: const RoundedRectangleBorder(
-    //   borderRadius: BorderRadius.all(
-    //     Radius.circular(22),
-    //   ),
-    // ),
-  ),
+class MyThemes {
+  static lightTheme(ColorScheme? colorScheme) {
+    return ThemeData(
+      useMaterial3: true,
 
-  // app bar theme
-  // appBarTheme: AppBarTheme(
-  //   backgroundColor: lightColorScheme.surface,
-  //   elevation: 0,
-  //   titleTextStyle: TextStyle(
-  //     fontSize: 22,
-  //     color: lightColorScheme.onPrimaryContainer,
-  //     fontWeight: FontWeight.bold,
-  //   ),
-  //   iconTheme: IconThemeData(
-  //     color: lightColorScheme.onPrimaryContainer,
-  //   ),
-  // ),
+      colorScheme: colorScheme ?? lightColorScheme,
+      // floating action theme
+      // floatingActionButtonTheme: FloatingActionButtonThemeData(
+      //   backgroundColor: colorScheme?.tertiary,
+      //   foregroundColor: colorScheme?.onTertiary,
+      // ),
 
-  scaffoldBackgroundColor: lightColorScheme.background,
-);
+      // chip themes
 
-ThemeData myDarkTheme = ThemeData(
-  useMaterial3: true,
-  // colorSchemeSeed: seed,
-  colorScheme: darkColorScheme,
-  // floating action theme
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: darkColorScheme.tertiary,
-    foregroundColor: darkColorScheme.onTertiary,
-    // extendedSizeConstraints: const BoxConstraints.tightFor(
-    //   height: 70,
-    //   width: 150,
-    // ),
-    // sizeConstraints: const BoxConstraints.tightFor(
-    //   height: 70,
-    //   width: 70,
-    // ),
-    // extendedPadding: const EdgeInsets.all(22.0),
-    // extendedIconLabelSpacing: 16.0,
-    // shape: const RoundedRectangleBorder(
-    //   borderRadius: BorderRadius.all(
-    //     Radius.circular(22),
-    //   ),
-    // ),
-  ),
+      chipTheme: ChipThemeData(
+        backgroundColor: colorScheme != null
+            ? colorScheme.secondaryContainer
+            : lightColorScheme.secondaryContainer,
+        selectedColor: colorScheme != null
+            ? colorScheme.tertiary
+            : lightColorScheme.tertiary,
+      ),
+      scaffoldBackgroundColor: colorScheme?.background,
+    );
+  }
 
-  // app bar theme
-  appBarTheme: AppBarTheme(
-    backgroundColor: darkColorScheme.surface,
-    elevation: 0,
-    titleTextStyle: TextStyle(
-      fontSize: 22,
-      color: darkColorScheme.onPrimaryContainer,
-      fontWeight: FontWeight.bold,
-    ),
-    iconTheme: IconThemeData(
-      color: darkColorScheme.onPrimaryContainer,
-    ),
-  ),
-  scaffoldBackgroundColor: darkColorScheme.background,
-);
+  static darkTheme(ColorScheme? colorScheme) {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: colorScheme ?? darkColorScheme,
+      // floatingActionButtonTheme: FloatingActionButtonThemeData(
+      //   backgroundColor: colorScheme?.tertiary,
+      //   foregroundColor: colorScheme?.onTertiary,
+      // ),
+
+      chipTheme: ChipThemeData(
+        backgroundColor: colorScheme != null
+            ? colorScheme.secondaryContainer
+            : darkColorScheme.secondaryContainer,
+        selectedColor: colorScheme != null
+            ? colorScheme.tertiary
+            : darkColorScheme.tertiary,
+      ),
+      scaffoldBackgroundColor: colorScheme?.surface,
+    );
+  }
+}

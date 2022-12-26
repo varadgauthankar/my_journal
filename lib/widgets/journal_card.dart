@@ -13,55 +13,49 @@ class JournalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-
-    String _getJournalDescription() {
+    String getJournalDescription(String jsonString) {
       try {
-        var json = jsonDecode(journal.description!);
-        quill.QuillController _controller = quill.QuillController(
+        var json = jsonDecode(jsonString);
+        quill.QuillController controller = quill.QuillController(
           document: quill.Document.fromJson(json),
           selection: const TextSelection.collapsed(offset: 0),
         );
 
-        return _controller.document
-            .getPlainText(0, _controller.document.length);
+        return controller.document.getPlainText(0, controller.document.length);
       } catch (_) {
         return journal.description ?? '';
       }
     }
 
     return MyCard(
-      height: screenSize.height * .11,
-      onTap: () => goToPage(context,
-          page: JournalPage(
-            journal: journal,
-            isEdit: true,
-          )),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            journal.title ?? '',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
+        onTap: () => goToPage(
+              context,
+              page: JournalPage(
+                journal: journal,
+                isEdit: true,
+              ),
             ),
-          ),
-          Text(
-            _getJournalDescription(),
-            maxLines: 2,
-            overflow: TextOverflow.fade,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.normal,
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              journal.title ?? '',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: getColorScheme(context).onSurface,
+                  ),
             ),
-          ),
-        ],
-      ),
-    );
+            Text(
+              getJournalDescription(journal.description ?? ''),
+              maxLines: 2,
+              overflow: TextOverflow.fade,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: getColorScheme(context).onSurfaceVariant,
+                  ),
+            ),
+          ],
+        ));
   }
 }

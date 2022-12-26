@@ -89,91 +89,104 @@ class _JournalPageState extends State<JournalPage> {
           return true;
         },
         child: Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              onPressed: () => value.handleSavingJournal(
-                context,
-                isEdit: widget.isEdit,
-              ),
-              icon: const Icon(EvaIcons.chevronLeft),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () async {
-                  _openSearchDelegate(value);
-                },
-                icon: const Icon(Icons.new_label_outlined),
-              ),
-              widget.isEdit
-                  ? IconButton(
-                      onPressed: () => _showDeleteDialog(context, value),
-                      icon: const Icon(EvaIcons.trashOutline),
-                    )
-                  : const SizedBox.shrink(),
-              IconButton(
+            appBar: AppBar(
+              leading: IconButton(
                 onPressed: () => value.handleSavingJournal(
                   context,
                   isEdit: widget.isEdit,
                 ),
-                icon: value.state == JournalProviderState.loading
-                    ? myCircularProgressIndicator(size: 18)
-                    : const Icon(EvaIcons.checkmark),
-              )
-            ],
-          ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (widget.isEdit)
-                        Text(
-                          DateFormatter.getJournalCreatedDateWithTime(
-                            widget.journal!.createdAt!,
-                          ),
-                          style: Theme.of(context).textTheme.caption,
-                        ),
-
-                      // build labels
-                      _buildListOfLabels(value.journalLabels, provider: value),
-
-                      TextFormField(
-                        controller: value.titleController,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: _getDefaultJournalTitle(),
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ],
-                  ),
+                icon: const Icon(EvaIcons.chevronLeft),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () async {
+                    _openSearchDelegate(value);
+                  },
+                  icon: const Icon(Icons.new_label_outlined),
                 ),
-                SliverFillRemaining(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 42.0),
-                    child: MyQuillEditor.editor(
-                      context,
-                      controller: value.quillController,
-                      autoFocus: !widget.isEdit,
-                      placeholder: 'How was your day?',
-                    ),
+                widget.isEdit
+                    ? IconButton(
+                        onPressed: () => _showDeleteDialog(context, value),
+                        icon: const Icon(EvaIcons.trashOutline),
+                      )
+                    : const SizedBox.shrink(),
+                IconButton(
+                  onPressed: () => value.handleSavingJournal(
+                    context,
+                    isEdit: widget.isEdit,
                   ),
-                ),
+                  icon: value.state == JournalProviderState.loading
+                      ? myCircularProgressIndicator(size: 18)
+                      : const Icon(EvaIcons.checkmark),
+                )
               ],
             ),
-          ),
-          bottomSheet: MyQuillEditor.toolbar(
-            context,
-            controller: value.quillController,
-          ),
-        ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (widget.isEdit)
+                          Text(
+                            DateFormatter.getJournalCreatedDateWithTime(
+                              widget.journal!.createdAt!,
+                            ),
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+
+                        // build labels
+                        _buildListOfLabels(value.journalLabels,
+                            provider: value),
+
+                        TextFormField(
+                          controller: value.titleController,
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                          decoration: InputDecoration(
+                            hintText: _getDefaultJournalTitle(),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SliverFillRemaining(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 52.0),
+                      child: MyQuillEditor.editor(
+                        context,
+                        controller: value.quillController,
+                        autoFocus: !widget.isEdit,
+                        placeholder: 'How was your day?',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            bottomSheet: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (widget.isEdit &&
+                    widget.journal?.createdAt != widget.journal?.updatedAt)
+                  Text(
+                    'Edited ${DateFormatter.getJournalCreatedDateWithTime(
+                      widget.journal!.updatedAt!,
+                    )}',
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                MyQuillEditor.toolbar(
+                  context,
+                  controller: value.quillController,
+                ),
+              ],
+            )),
       );
     });
   }
@@ -183,12 +196,7 @@ class _JournalPageState extends State<JournalPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text(
-              'Delete Journal?',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-              ),
-            ),
+            title: const Text('Delete Journal?'),
             content: const Text('This cannot be undone'),
             actions: [
               TextButton(
@@ -205,9 +213,6 @@ class _JournalPageState extends State<JournalPage> {
               ),
             ],
             // backgroundColor: lightColorScheme.primaryContainer,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
           );
         });
     // value.deleteJournal();
