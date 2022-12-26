@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.large(
         onPressed: () => goToPage(context, page: const JournalPage()),
         child: const Icon(Icons.add),
       ),
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                 height: 48,
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   scrollDirection: Axis.horizontal,
                   itemCount: labels?.length,
                   itemBuilder: (context, index) {
@@ -197,7 +197,7 @@ class _HomePageState extends State<HomePage> {
       return GridView.builder(
         shrinkWrap: true,
         primary: false,
-        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
         itemCount: journals?.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> {
       return ListView.builder(
         shrinkWrap: true,
         primary: false,
-        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         physics: const BouncingScrollPhysics(),
         itemCount: journals?.length,
         itemBuilder: ((context, index) {

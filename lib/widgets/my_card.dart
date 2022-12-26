@@ -15,11 +15,11 @@ class MyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(6.0),
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Material(
         elevation: 2.2,
         borderRadius: BorderRadius.circular(8.0),
-        color: Theme.of(context).colorScheme.secondaryContainer,
+        color: Theme.of(context).colorScheme.surfaceVariant,
         child: InkWell(
           borderRadius: BorderRadius.circular(8.0),
           onTap: onTap,

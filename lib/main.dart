@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_journal/pages/home_page.dart';
@@ -36,13 +37,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LabelsProvider()),
       ],
       child: Consumer<ThemeProvider>(builder: (context, value, child) {
-        return MaterialApp(
-          title: 'MyJournal',
-          theme: myLightTheme,
-          darkTheme: myDarkTheme,
-          themeMode: value.themeMode,
-          home: const AuthenticationWrapper(),
-        );
+        return DynamicColorBuilder(
+            builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+          return MaterialApp(
+            title: 'MyJournal',
+            theme: MyThemes.lightTheme(lightDynamic),
+            darkTheme: MyThemes.darkTheme(darkDynamic),
+            themeMode: value.themeMode,
+            home: const AuthenticationWrapper(),
+          );
+        });
       }),
     );
   }
