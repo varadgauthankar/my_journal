@@ -14,6 +14,15 @@ class MyQuillEditor {
       autoFocus: autoFocus,
       controller: controller,
       customStyles: DefaultStyles(
+        placeHolder: DefaultTextBlockStyle(
+          TextStyle(
+            fontSize: 18,
+            color: getColorScheme(context).onBackground.withOpacity(.5),
+          ),
+          const Tuple2(2, 2),
+          const Tuple2(2, 2),
+          null,
+        ),
         paragraph: DefaultTextBlockStyle(
           TextStyle(
             fontSize: 18,
