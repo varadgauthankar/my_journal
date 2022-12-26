@@ -13,4 +13,17 @@ class DateFormatter {
     return DateFormat('dd MMM yyy \'at\' hh:mm aa')
         .format(DateTime.parse(date));
   }
+
+  static String getAppropriateLastEditedTime(String date) {
+    DateTime dateEdited = DateTime.parse(date);
+    DateTime now = DateTime.now();
+
+    if (dateEdited.day == now.day) {
+      return DateFormat('hh:mm aa').format(dateEdited);
+    } else if (dateEdited.month == now.month) {
+      return DateFormat('dd MMM \'at\' hh:mm aa').format(dateEdited);
+    } else {
+      return DateFormat('dd MMM yyy \'at\' hh:mm aa').format(dateEdited);
+    }
+  }
 }

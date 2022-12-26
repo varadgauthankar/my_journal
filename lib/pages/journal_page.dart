@@ -158,7 +158,7 @@ class _JournalPageState extends State<JournalPage> {
                   ),
                   SliverFillRemaining(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 52.0),
+                      padding: const EdgeInsets.only(bottom: 62.0),
                       child: MyQuillEditor.editor(
                         context,
                         controller: value.quillController,
@@ -173,10 +173,11 @@ class _JournalPageState extends State<JournalPage> {
             bottomSheet: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                spacer(height: 4),
                 if (widget.isEdit &&
                     widget.journal?.createdAt != widget.journal?.updatedAt)
                   Text(
-                    'Edited ${DateFormatter.getJournalCreatedDateWithTime(
+                    'Edited ${DateFormatter.getAppropriateLastEditedTime(
                       widget.journal!.updatedAt!,
                     )}',
                     style: Theme.of(context).textTheme.caption,
@@ -185,6 +186,7 @@ class _JournalPageState extends State<JournalPage> {
                   context,
                   controller: value.quillController,
                 ),
+                spacer(height: 4),
               ],
             )),
       );
