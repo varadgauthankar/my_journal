@@ -198,6 +198,7 @@ class _JournalPageState extends State<JournalPage> {
         context: context,
         builder: (context) {
           return AlertDialog(
+            backgroundColor: getColorScheme(context).surfaceVariant,
             title: const Text('Delete Journal?'),
             content: const Text('This cannot be undone'),
             actions: [

@@ -197,7 +197,7 @@ class _HomePageState extends State<HomePage> {
       return GridView.builder(
         shrinkWrap: true,
         primary: false,
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 11.0),
         itemCount: journals?.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> {
       return ListView.builder(
         shrinkWrap: true,
         primary: false,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 11.0),
         physics: const BouncingScrollPhysics(),
         itemCount: journals?.length,
         itemBuilder: ((context, index) {

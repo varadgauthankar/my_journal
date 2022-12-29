@@ -30,7 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 11.0),
         children: [
           _profileCard(),
           _appThemeCard(),
