@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
         return DynamicColorBuilder(
             builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'MyJournal',
             theme: MyThemes.lightTheme(lightDynamic),
             darkTheme: MyThemes.darkTheme(darkDynamic),
