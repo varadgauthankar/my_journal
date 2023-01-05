@@ -1,6 +1,21 @@
 import 'package:intl/intl.dart';
 
 class DateFormatter {
+  static bool isSameDate(String value1, String value2) {
+    DateTime date1 = DateTime.parse(value1);
+    DateTime date2 = DateTime.parse(value2);
+
+    if (date1.day == date2.day &&
+        date1.month == date2.month &&
+        date1.year == date2.year &&
+        date1.hour == date2.hour &&
+        date1.minute == date2.minute) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static String formatToAppStandard(String date) {
     return DateFormat('EEE, dd MMM').format(DateTime.parse(date));
   }

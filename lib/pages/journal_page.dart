@@ -174,14 +174,17 @@ class _JournalPageState extends State<JournalPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 spacer(height: 4),
-                if (widget.isEdit &&
-                    widget.journal?.createdAt != widget.journal?.updatedAt)
-                  Text(
-                    'Edited ${DateFormatter.getAppropriateLastEditedTime(
-                      widget.journal!.updatedAt!,
-                    )}',
-                    style: Theme.of(context).textTheme.caption,
-                  ),
+                if (widget.isEdit)
+                  if (!DateFormatter.isSameDate(
+                    widget.journal!.createdAt!,
+                    widget.journal!.updatedAt!,
+                  ))
+                    Text(
+                      'Edited ${DateFormatter.getAppropriateLastEditedTime(
+                        widget.journal!.updatedAt!,
+                      )}',
+                      style: Theme.of(context).textTheme.caption,
+                    ),
                 MyQuillEditor.toolbar(
                   context,
                   controller: value.quillController,
