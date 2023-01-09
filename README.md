@@ -22,23 +22,16 @@ A simple and secure app to write down your day!
 ## Screenshots
 
 <p>
-<img height="328px" width="175px" src="branding/screenshots/s9.png" alt="4"/>
+<img height="328px" width="175px" src="branding/screenshots/ss1.png" alt="4"/>
 
-<img height="328px" width="175px" src="branding/screenshots/s7.png" alt="4"/>
+<img height="328px" width="175px" src="branding/screenshots/ss2.png" alt="4"/>
 
-<img height="328px" width="175px" src="branding/screenshots/s6.png" alt="1"/>
+<img height="328px" width="175px" src="branding/screenshots/ss3.png" alt="1"/>
 
-<img height="328px" width="175px" src="branding/screenshots/s4.png" alt="2"/>
+<img height="328px" width="175px" src="branding/screenshots/ss4.png" alt="2"/>
 
-<img height="328px" width="175px" src="branding/screenshots/s5.png" alt="3"/>
+<img height="328px" width="175px" src="branding/screenshots/ss5.png" alt="3"/>
 
-<img height="328px" width="175px" src="branding/screenshots/s2.png" alt="3"/>
-
-<img height="328px" width="175px" src="branding/screenshots/s1.png" alt="3"/>
-
-<img height="328px" width="175px" src="branding/screenshots/s3.png" alt="3"/>
-
-<img height="328px" width="175px" src="branding/screenshots/s8.png" alt="3"/>
 </p>
 
 ## Contributing
